@@ -4,6 +4,8 @@ import {
 } from 'vue-router'
 import TheMovie from './components/TheMovie.vue'
 import TheMain from './components/TheMain.vue'
+import TheMovies from './components/TheMovies.vue'
+import TheSeries from './components/TheSeries.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -27,8 +29,17 @@ const router = createRouter({
                 },
 
             ]
-        }
-    ]
+        },
+        {
+            path: '/movies',
+            component: TheMovies
+        },
+        {
+            path: '/tvseries',
+            component: TheSeries
+        },
+    ],
+    linkActiveClass: 'active2',
 })
 
 

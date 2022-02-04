@@ -10,9 +10,9 @@
     <nav>
       <div class="container">
         <div class="wrapper__brands">
-          <a href="#" class="brand__movie">Movies</a>
+          <router-link to="/movies">movies &nbsp;</router-link>
           <span>|</span>
-          <a href="#" class="brand__serie">TV series</a>
+          <router-link to="/tvseries">TV series</router-link>
         </div>
         <form class="wrapper__form" @submit.prevent="searchData(newMovies)">
           <label for="input" class="wrapper__center">
@@ -52,7 +52,11 @@
         </div>
       </div>
       <!-- <the-main></the-main> -->
-      <router-view @change="takeValue" :datas="data3" :all2="all2"></router-view>
+      <router-view
+        @change="takeValue"
+        :datas="data3"
+        :all2="all2"
+      ></router-view>
     </nav>
   </div>
 </template>
@@ -70,7 +74,7 @@ export default {
     return {
       all: false,
       all2: false,
-      all3:false,
+      all3: false,
       newMovies: '',
       movies: '',
       data3: [],
@@ -145,57 +149,29 @@ nav .container {
     align-items: center;
     font-size: 18px;
     font-family: 'Roboto';
-    .brand__movie {
+    a {
       color: $grey;
-      color: $blue;
       position: relative;
-      &::after {
-        background-color: $blue;
-        content: '';
-        width: 31px;
-        height: 4px;
-        border-radius: 23px;
-        position: absolute;
-        top: 28px;
-        right: 14px;
-      }
-      &:hover {
+      &:hover,
+      &.active2 {
         color: $blue;
         &::after {
-          background-color: $blue;
-          content: '';
-          width: 31px;
-          height: 4px;
-          border-radius: 23px;
           position: absolute;
-          top: 28px;
-          left: 14px;
+          content: '';
+          width: 35px;
+          height: 4px;
+          border-radius: 20px;
+          background: $blue;
+          top: 23px;
+          right: 19px;
         }
       }
     }
+
     span {
       color: $grey;
       font-size: 24px;
       margin: 0 13px;
-    }
-    .brand__serie {
-      color: $grey;
-      font-size: 18px;
-      font-family: 'Roboto';
-      position: relative;
-      &:hover {
-        color: $blue;
-        &::after {
-          background-color: $blue;
-          content: '';
-          width: 31px;
-          height: 4px;
-          border-radius: 23px;
-          position: absolute;
-          top: 28px;
-          right: 20px;
-        }
-      }
     }
   }
 

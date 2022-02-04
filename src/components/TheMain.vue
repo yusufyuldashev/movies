@@ -590,7 +590,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 @import '../sass/_colors.scss';
 
 @import url('../../node_modules/@egjs/vue-flicking/dist/flicking.css');
