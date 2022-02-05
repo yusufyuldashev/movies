@@ -187,6 +187,7 @@
               v-for="film in data"
               :key="film.id"
               :id="film.id"
+              :class="{ activate: top }"
               @click="dataChange(film.id)"
             >
               <div class="wrapper__img">
@@ -252,8 +253,8 @@
         <button
           type="button"
           :disabled="isCompolete"
-          :class="{ active: isCompolete }"
           class="prev"
+          :class="{ active3: isCompolete }"
           @click="changePage(addPage--)"
         >
           Prev
@@ -309,7 +310,7 @@ import axios from 'axios'
 import Flicking from '@egjs/vue3-flicking'
 
 export default {
-  props: ['search', 'datas','all2'],
+  props: ['search', 'datas', 'all2'],
 
   components: {
     Flicking,
@@ -346,6 +347,7 @@ export default {
       hideNumber: false,
       addPage: 10,
       add: false,
+      top: false,
       // movies: this.$store.getters.searchValue2,
 
       // searchValue: this.Movies,
@@ -385,7 +387,7 @@ export default {
     image() {
       return 'https://image.tmdb.org/t/p/w500'
     },
-    
+
     posterMain() {
       if (!this.clicked) {
         return this.poster2
@@ -460,7 +462,7 @@ export default {
       //   }
       // })
       // console.log(this.data2[0])
-
+      this.top = true
       this.data.forEach((item) => {
         this.clicked = true
         if (item.id === id) {
@@ -472,6 +474,8 @@ export default {
           this.rate = item.vote_average
         }
       })
+      this.scrollToTop()
+
       // console.log(this.poster)
     },
     async gotoNext() {
@@ -543,7 +547,9 @@ export default {
         console.log(e)
       }
     },
-
+    scrollToTop() {
+      window.scrollTo(0, 0)
+    },
     async fetchHomePage2() {
       const api_key = `e10a98df5c335fc5102ecda2cf9b7dbf`
       const base_url = 'https://api.themoviedb.org/3'
@@ -601,6 +607,9 @@ export default {
 }
 .vote2 {
   background: green !important;
+}
+.activate {
+  top: 0;
 }
 
 .searchTitle {
@@ -690,10 +699,8 @@ export default {
   overflow: hidden;
 }
 
-.active {
-  color: white;
-  background: red;
-  font-size: 50px;
+.active3 {
+  color: white !important;
 }
 .prev {
   color: black;
@@ -774,7 +781,7 @@ export default {
   }
 }
 main {
-  margin-top: 100px;
+  margin-top: 10px;
   font-family: 'Roboto';
   font-weight: normal;
 }

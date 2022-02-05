@@ -1,4 +1,3 @@
-h2
 <template>
   <section>
     <div class="container2" v-if="!all2">
@@ -127,13 +126,13 @@ h2
                   class="right__main__seven__image"
                 />
               </div>
-              <div class="right__main__eight">
+              <div class="right__main__eight" @click="vidyoClicked">
                 <img
                   src="../assets/playT.svg"
                   alt="play"
                   class="right__main__eight__image"
                 />
-                <p class="right__main__seven">Воспроизвести трейлер</p>
+                <p class="right__main__seven">Watch Now</p>
               </div>
             </div>
             <p class="right__data__second__title">In the beginning...</p>
@@ -147,6 +146,7 @@ h2
         </div>
       </div>
     </div>
+    <base-dialog :id="movies.id" v-if="open" @close="handleError"></base-dialog>
   </section>
 </template>
 
@@ -164,6 +164,7 @@ export default {
       teen: false,
       basicClick: false,
       searched: false,
+      open: false,
     }
   },
   created() {
@@ -218,6 +219,15 @@ export default {
   },
 
   methods: {
+    handleError() {
+      this.open = false
+    },
+    hideModal() {
+      this.open = false
+    },
+    vidyoClicked() {
+      this.open = true
+    },
     dataChange(id) {
       // this.data.forEach((item) => {
       //   if (item === id) {
@@ -262,6 +272,9 @@ export default {
 @import url('../../node_modules/@egjs/vue-flicking/dist/flicking.css');
 // Or, if you have to support IE9
 @import url('../../node_modules/@egjs/vue-flicking/dist/flicking-inline.css');
+.vidyoIframe {
+  margin-top: 30px;
+}
 .main__list {
   display: flex;
   position: relative;
@@ -443,6 +456,7 @@ export default {
       .right__main__eight {
         display: flex;
         margin-left: 3px;
+        cursor: pointer;
         align-items: center;
         img {
           background-color: transparent;

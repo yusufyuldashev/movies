@@ -11,7 +11,6 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
 
-
         {
             path: '/',
             redirect: '/home'
@@ -32,7 +31,14 @@ const router = createRouter({
         },
         {
             path: '/movies',
-            component: TheMovies
+            component: TheMovies,
+             children: [{
+                    path: ':datu',
+                    component: TheMovie,
+                    props: true
+                },
+
+            ]
         },
         {
             path: '/tvseries',
@@ -40,6 +46,18 @@ const router = createRouter({
         },
     ],
     linkActiveClass: 'active2',
+    scrollBehavior(to, from, savedPostion) {
+          console.log(to, from, savedPostion);
+        if (savedPostion) {
+            return savedPostion
+        }
+        return {
+            left: 0,
+            top: 0
+        }
+
+
+    },
 })
 
 

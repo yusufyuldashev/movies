@@ -2,11 +2,15 @@
   <ul class="aside__list">
     <li class="aside__top__item">
       <div class="aside__home">
-        <p>...</p>
-        <div class="aside__top__wrapper">
-          <img src="../assets/home.png" alt="home" class="aside__top__img" />
-          <h4 class="aside__top__title">Home</h4>
-        </div>
+        <router-link to="/home">
+          <p>...</p>
+          <div class="aside__top__wrapper">
+            <img src="../assets/home.png" alt="home" class="aside__top__img" />
+            <h4 class="aside__top__title">
+              <router-link to="/home">Home</router-link>
+            </h4>
+          </div>
+        </router-link>
       </div>
       <a href="#" class="aside__top__link">Popular</a>
       <a href="#" class="aside__top__link">Discover</a>
@@ -32,6 +36,10 @@ a {
   font-size: 18px;
   font-style: normal;
 }
+a:hover,
+a.active2 {
+  color: $blue;
+}
 
 ul {
   justify-content: center;
@@ -44,6 +52,8 @@ ul {
     flex-direction: column;
     .aside__home {
       padding-bottom: 20px;
+      font-weight: normal;
+
       p {
         color: white;
         margin: 0;
@@ -55,23 +65,30 @@ ul {
 
         align-items: center;
         .aside__top__title {
-          color: $blue;
-          font-size: 18px;
           margin-left: 4px;
+          a {
+            color: white;
+            font-weight: 400;
+            font-size: 18px;
+            &:hover,
+            &.active2 {
+              color: $blue;
+            }
+          }
         }
       }
     }
-    .aside__top__link {
-      color: white;
-      font-size: 18px;
-      margin-bottom: 29px;
-      &:hover {
-        color: $blue;
-      }
+  }
+  .aside__top__link {
+    color: white;
+    font-size: 18px;
+    margin-bottom: 29px;
+    &:hover {
+      color: $blue;
     }
   }
-  .aside__center__item {
-    margin: 50px 0 100px 0;
-  }
+}
+.aside__center__item {
+  margin: 50px 0 100px 0;
 }
 </style>

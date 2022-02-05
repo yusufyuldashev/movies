@@ -1,19 +1,35 @@
 <template>
   <section>
-    <div class="container">
+    <div class="spinner__center" v-if="isLoading">
+      <the-spinner></the-spinner>
+    </div>
+    <div v-if="clicked2 && !isLoading">
+      <router-view
+        :datas="datasMovie"
+        :click="clicked2"
+        :all2="all2"
+      ></router-view>
+    </div>
+    <div class="container" v-if="!clicked2 && !isLoading">
       <h1 class="main__title">Movies</h1>
       <ul class="movies__genres">
         <li
           class="movie__genre"
           v-for="genre in genres"
           :key="genre.id"
+          :class="{ highlighted: genrex == genre.id }"
           @click="genreClick(genre.id)"
         >
           {{ genre.name }}
         </li>
       </ul>
       <ul class="main__list">
-        <li class="main__item" v-for="film in datasMovie" :key="film.id">
+        <li
+          class="main__item"
+          v-for="film in datasMovie"
+          :key="film.id"
+          @click="dataChange2(film.id)"
+        >
           <div class="wrapper__img">
             <img :src="image + film.poster_path" />
           </div>
@@ -30,6 +46,35 @@
           <p class="main__text">{{ film.title }}</p>
         </li>
       </ul>
+      <div class="page_wrapper">
+        <button
+          type="button"
+          class="prev"
+          :class="{ active3: isCompolete }"
+          @click="changePage(addPage--)"
+          :disabled="isCompolete"
+        >
+          Prev
+        </button>
+        <div
+          class="page__num2"
+          v-for="pageNum in totalPage2"
+          :key="pageNum.id"
+          @click="changePage(pageNum)"
+        >
+          {{ addPage }}
+        </div>
+        <!-- <div
+          class="page__num"
+          :class="{ page__btn: page === pageNum }"
+          v-for="pageNum in totalPage"
+          :key="pageNum.id"
+          @click="changePage(pageNum)"
+        >
+          {{ pageNum }}
+        </div> -->
+        <button class="next" @click="changePage(addPage++)">Next</button>
+      </div>
     </div>
   </section>
 </template>
@@ -38,7 +83,7 @@
 import axios from 'axios'
 
 export default {
-  props: ['datas'],
+  props: ['datas', 'all2'],
   data() {
     return {
       datasMovie: [],
@@ -121,49 +166,94 @@ export default {
         },
       ],
       selectedGenres: null,
+      clicked2: false,
+      page: 1,
+      limit2: 33000,
+      totalPage2: 0,
+      addPage: 2,
+      genrex: null,
+      isLoading: false,
     }
   },
   computed: {
     image() {
       return 'https://image.tmdb.org/t/p/w500'
     },
+    isCompolete() {
+      return this.addPage <= 1
+    },
   },
+
   mounted() {
+    this.isLoading = true
     this.fetchHomePage5()
-    console.log(this.datas)
+    this.fetchSearched()
+    this.isLoading = false
+  },
+  watch: {
+    datas(newData) {
+      this.fetchSearched(newData)
+    },
   },
 
   methods: {
-    genreClick(genre) {
-      // if (this.selectedGenres == 0) {
-      //   this.selectedGenres.push(genre)
-      // } else {
-      //   if (this.selectedGenres.includes(genre)) {
-      //     this.selectedGenres.forEach((id, idx) => {
-      //       if (id == genre.id) {
-      //         this.selectedGenres.splice(idx, 1)
-      //       }
-      //     })
-      //   } else {
-      //     this.selectedGenres.push(genre)
-      //   }
-      // }
-      this.selectedGenres = genre
+    changePage(pageNumber) {
+      this.page = pageNumber
+      console.log(this.addPage)
+
       this.fetchHomePage5()
     },
+    dataChange2(id) {
+      if (this.datasMovie.length > 0) {
+        this.clicked2 = true
+        this.datasMovie.forEach((item) => {
+          if (item.id === id) {
+            // this.movies = id
+            this.$router.push({
+              path: `/movies/${id}`,
+            })
+          }
+        })
+      }
+    },
+    genreClick(genre) {
+      this.selectedGenres = genre
+      this.addPage = 1
+      this.fetchHomePage5()
+      this.genres.forEach((genrei) => {
+        if (genrei.id == genre) {
+          this.genrex = genre
+        }
+      })
+      console.log(this.genre)
+    },
+    async fetchSearched(datas) {
+      this.datasMovie = await datas
+    },
+
     async fetchHomePage5() {
       try {
         const api_key = 'api_key=e10a98df5c335fc5102ecda2cf9b7dbf'
         const base_url = 'https://api.themoviedb.org/3'
+        const pagination = this.page
         const api_url =
-          base_url + `/discover/movie?sort_by=popularity.desc&${api_key}`
+          base_url +
+          `/discover/movie?sort_by=popularity.desc&${api_key}&page=${pagination}`
         const api = api_url + '&with_genres=' + this.selectedGenres
-        const response = await axios.get(api).then((res) => {
-          const data = res.data.results
-          this.datasMovie = data
-          // console.log(api)
-          return res.data.results
-        })
+        const response = await axios
+          .get(api, {
+            params: {
+              _limit: this.limit,
+              _page: this.page,
+            },
+          })
+          .then((res) => {
+            const data = res.data.results
+            this.datasMovie = data
+            this.totalPage2 = Math.ceil(res.data.total_pages / this.limit2)
+            // console.log(api)
+            return res.data.results
+          })
 
         return response
       } catch (e) {
@@ -175,20 +265,99 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '../sass/_colors.scss';
+.highlighted {
+  color: $blue !important;
+}
+.active3 {
+  color: rgb(146, 146, 146) !important;
+}
+.page_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.prev {
+  color: black;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  margin-right: 10px;
+  cursor: pointer;
+  user-select: none;
+  &:hover {
+    color: $blue;
+  }
+}
+.next {
+  cursor: pointer;
+  font-size: 16px;
+  border: none;
+  background: transparent;
+  margin-left: 10px;
+  user-select: none;
+  &:hover {
+    color: $blue;
+  }
+}
+.page__num {
+  background: red;
+  margin: 0 5px;
+  padding: 10px;
+  border-radius: 30%;
+  color: white;
+  cursor: pointer;
+  border: 1px solid white;
+  background: $black;
+  &:hover {
+    background: black;
+    border-radius: 20px;
+    color: $blue;
+    border: 1px solid $blue;
+  }
+}
+
+.page__num2 {
+  padding: 20px;
+  background: black;
+  color: white;
+  cursor: pointer;
+  font-size: 20px;
+  margin: 0 5px;
+  border: 1px solid $blue;
+  color: $blue;
+  border-radius: 20px;
+}
+.page__btn {
+  padding: 10px;
+  background: black;
+  color: white;
+  cursor: pointer;
+  margin: 0 5px;
+  border: 1px solid $blue;
+  color: $blue;
+  border-radius: 20px;
+}
 .movies__genres {
   display: flex;
   flex-wrap: wrap;
   list-style: none;
+
   margin-top: 20px;
   justify-content: center;
   li {
     color: white;
+    cursor: pointer;
     padding: 10px;
     font-family: 'Roboto';
     font-weight: normal;
     background: black;
     margin: 5px 5px;
     border-radius: 10px;
+    &:hover {
+      color: $blue;
+    }
   }
 }
 .vote {
@@ -204,6 +373,7 @@ export default {
     color: white;
     font-weight: normal;
     text-align: center;
+    font-family: 'Roboto';
     font-size: 30px;
     margin-top: 30px;
   }

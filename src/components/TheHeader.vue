@@ -102,7 +102,7 @@ export default {
           return res.data.results
         })
         .catch((err) => console.error(err))
-      this.all2 = !this.all2
+      this.all2 = false
       this.all3 = true
       // this.$router.go('/main')
       return response
