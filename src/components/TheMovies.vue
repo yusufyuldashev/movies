@@ -83,7 +83,7 @@
 import axios from 'axios'
 
 export default {
-  props: ['datas', 'all2'],
+  props: ['datas', 'all2', 'saved'],
   data() {
     return {
       datasMovie: [],
@@ -368,6 +368,7 @@ export default {
 }
 .container {
   width: 1050px;
+
   margin: 0 auto;
   .main__title {
     color: white;

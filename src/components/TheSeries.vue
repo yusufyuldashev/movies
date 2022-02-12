@@ -1,3 +1,441 @@
 <template>
-  <p>series</p>
+  <section>
+    <div class="spinner__center" v-if="isLoading">
+      <h3>Loading..</h3>
+    </div>
+    <div v-if="clicked2 && !isLoading">
+      <router-view
+        :datas="datasMovie"
+        :click="clicked2"
+        :all2="all2"
+      ></router-view>
+    </div>
+    <div class="container" v-if="!clicked2 && !isLoading">
+      <h1 class="main__title">TV series</h1>
+      <ul class="movies__genres">
+        <li
+          class="movie__genre"
+          v-for="genre in genres"
+          :key="genre.id"
+          :class="{ highlighted: genrex == genre.id }"
+          @click="genreClick(genre.id)"
+        >
+          {{ genre.name }}
+        </li>
+      </ul>
+      <ul class="main__list">
+        <li
+          class="main__item"
+          v-for="film in datasMovie"
+          :key="film.id"
+          @click="dataChange2(film.id)"
+        >
+          <div class="wrapper__img">
+            <img :src="image + film.poster_path" />
+          </div>
+          <p
+            class="wrapper__rate"
+            :class="{
+              vote2: film.vote_average * 10 > 75,
+              vote: film.vote_average * 10 < 60,
+            }"
+          >
+            {{ film.vote_average * 10 }}
+          </p>
+          <p class="main__title2">{{ film.first_air_date }}</p>
+          <p class="main__text">{{ film.name }}</p>
+        </li>
+      </ul>
+      <div class="page_wrapper">
+        <button
+          type="button"
+          class="prev"
+          :class="{ active3: isCompolete }"
+          @click="changePage(addPage--)"
+          :disabled="isCompolete"
+        >
+          Prev
+        </button>
+        <div
+          class="page__num2"
+          v-for="pageNum in totalPage2"
+          :key="pageNum.id"
+          @click="changePage(pageNum)"
+        >
+          {{ addPage }}
+        </div>
+        <!-- <div
+          class="page__num"
+          :class="{ page__btn: page === pageNum }"
+          v-for="pageNum in totalPage"
+          :key="pageNum.id"
+          @click="changePage(pageNum)"
+        >
+          {{ pageNum }}
+        </div> -->
+        <button class="next" @click="changePage(addPage++)">Next</button>
+      </div>
+    </div>
+  </section>
 </template>
+
+<script>
+import axios from 'axios'
+
+export default {
+  props: ['datas', 'all2', 'saved'],
+  data() {
+    return {
+      datasMovie: [],
+      genres: [
+        {
+          id: 10759,
+          name: 'Action & Adventure',
+        },
+        {
+          id: 16,
+          name: 'Animation',
+        },
+        {
+          id: 35,
+          name: 'Comedy',
+        },
+        {
+          id: 80,
+          name: 'Crime',
+        },
+        {
+          id: 99,
+          name: 'Documentary',
+        },
+        {
+          id: 18,
+          name: 'Drama',
+        },
+        {
+          id: 10751,
+          name: 'Family',
+        },
+        {
+          id: 10762,
+          name: 'Kids',
+        },
+        {
+          id: 9648,
+          name: 'Mystery',
+        },
+        {
+          id: 10763,
+          name: 'News',
+        },
+        {
+          id: 10764,
+          name: 'Reality',
+        },
+        {
+          id: 10765,
+          name: 'Sci-Fi & Fantasy',
+        },
+        {
+          id: 10766,
+          name: 'Soap',
+        },
+        {
+          id: 10767,
+          name: 'Talk',
+        },
+        {
+          id: 10768,
+          name: 'War & Politics',
+        },
+        {
+          id: 37,
+          name: 'Western',
+        },
+      ],
+      selectedGenres: null,
+      clicked2: false,
+      page: 1,
+      limit2: 33000,
+      totalPage2: 0,
+      addPage: 2,
+      genrex: null,
+      isLoading: false,
+    }
+  },
+  computed: {
+    image() {
+      return 'https://image.tmdb.org/t/p/w500'
+    },
+    isCompolete() {
+      return this.addPage <= 1
+    },
+  },
+
+  mounted() {
+    this.isLoading = true
+    this.fetchHomePage5()
+    this.fetchSearched()
+    this.isLoading = false
+  },
+  watch: {
+    datas(newData) {
+      this.fetchSearched(newData)
+    },
+  },
+
+  methods: {
+    changePage(pageNumber) {
+      this.page = pageNumber
+      console.log(this.addPage)
+
+      this.fetchHomePage5()
+    },
+    dataChange2(id) {
+      if (this.datasMovie.length > 0) {
+        this.clicked2 = true
+        this.datasMovie.forEach((item) => {
+          if (item.id === id) {
+            // this.movies = id
+            this.$router.push({
+              path: `/series/${id}`,
+            })
+          }
+        })
+      }
+    },
+    genreClick(genre) {
+      this.isLoading = true
+      this.selectedGenres = genre
+      this.addPage = 1
+      this.fetchHomePage5()
+      this.genres.forEach((genrei) => {
+        if (genrei.id == genre) {
+          this.genrex = genre
+        }
+      })
+      this.isLoading = false
+      console.log(this.genre)
+    },
+    async fetchSearched(datas) {
+      this.datasMovie = await datas
+    },
+
+    async fetchHomePage5() {
+      this.isLoading = true
+      try {
+        const api_key = 'api_key=e10a98df5c335fc5102ecda2cf9b7dbf'
+        const base_url = 'https://api.themoviedb.org/3'
+        const pagination = this.page
+        const api_url =
+          base_url +
+          `/discover/tv?sort_by=popularity.desc&${api_key}&page=${pagination}`
+        const api = api_url + '&with_genres=' + this.selectedGenres
+        const response = await axios
+          .get(api, {
+            params: {
+              _limit: this.limit,
+              _page: this.page,
+            },
+          })
+          .then((res) => {
+            const data = res.data.results
+            this.datasMovie = data
+            this.totalPage2 = Math.ceil(res.data.total_pages / this.limit2)
+            // console.log(api)
+            return res.data.results
+          })
+        this.isLoading = false
+
+        return response
+      } catch (e) {
+        console.log(e)
+      }
+    },
+  },
+}
+</script>
+
+<style scoped lang="scss">
+@import '../sass/_colors.scss';
+.spinner__center {
+  h3 {
+    color: red !important;
+  }
+}
+.highlighted {
+  color: $blue !important;
+}
+.active3 {
+  color: rgb(146, 146, 146) !important;
+}
+.page_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.prev {
+  color: black;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  margin-right: 10px;
+  cursor: pointer;
+  user-select: none;
+  &:hover {
+    color: $blue;
+  }
+}
+.next {
+  cursor: pointer;
+  font-size: 16px;
+  border: none;
+  background: transparent;
+  margin-left: 10px;
+  user-select: none;
+  &:hover {
+    color: $blue;
+  }
+}
+.page__num {
+  background: red;
+  margin: 0 5px;
+  padding: 10px;
+  border-radius: 30%;
+  color: white;
+  cursor: pointer;
+  border: 1px solid white;
+  background: $black;
+  &:hover {
+    background: black;
+    border-radius: 20px;
+    color: $blue;
+    border: 1px solid $blue;
+  }
+}
+
+.page__num2 {
+  padding: 20px;
+  background: black;
+  color: white;
+  cursor: pointer;
+  font-size: 20px;
+  margin: 0 5px;
+  border: 1px solid $blue;
+  color: $blue;
+  border-radius: 20px;
+}
+.page__btn {
+  padding: 10px;
+  background: black;
+  color: white;
+  cursor: pointer;
+  margin: 0 5px;
+  border: 1px solid $blue;
+  color: $blue;
+  border-radius: 20px;
+}
+.movies__genres {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+
+  margin-top: 20px;
+  justify-content: center;
+  li {
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    font-family: 'Roboto';
+    font-weight: normal;
+    background: black;
+    margin: 5px 5px;
+    border-radius: 10px;
+    &:hover {
+      color: $blue;
+    }
+  }
+}
+.vote {
+  background: red !important;
+}
+.vote2 {
+  background: green !important;
+}
+.container {
+  width: 1050px;
+  margin: 0 auto;
+  .main__title {
+    color: white;
+    font-weight: normal;
+    text-align: center;
+    font-family: 'Roboto';
+    font-size: 30px;
+    margin-top: 30px;
+  }
+  .main__list {
+    display: flex;
+    list-style: none;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 0;
+    margin-top: 50px;
+    //   justify-content: space-between;
+    .wrapper__rate {
+      position: absolute;
+      color: white;
+      background: black;
+      margin-left: 165px;
+      top: -18px;
+      padding: 10px;
+      border-radius: 20px;
+    }
+    .main__item {
+      padding: 0;
+      width: 20%;
+      margin: 10px 0;
+      height: auto !important;
+      position: relative;
+
+      cursor: pointer;
+      .wrapper__img {
+        width: 90%;
+        height: 250px;
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 20px;
+          // aspect-ratio: 5/5 !important;
+          object-fit: cover;
+        }
+      }
+      .main__title2 {
+        color: white;
+        font-weight: normal;
+        font-weight: bold;
+        color: green;
+        display: inline-block;
+        font-family: 'Roboto';
+        margin-left: 50px;
+        margin-bottom: 0;
+      }
+      .main__text {
+        width: 150px;
+        text-align: center;
+        margin-left: 20px;
+        margin-top: 0;
+        font-size: 15px;
+        font-family: 'Roboto';
+        font-weight: normal;
+        color: white;
+      }
+    }
+  }
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+</style>

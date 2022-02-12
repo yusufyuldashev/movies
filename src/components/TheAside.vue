@@ -12,18 +12,29 @@
           </div>
         </router-link>
       </div>
-      <a href="#" class="aside__top__link">Popular</a>
-      <a href="#" class="aside__top__link">Discover</a>
-      <a href="#" class="aside__top__link">Categories</a>
+      <p class="aside__top__link">
+        <router-link to="/popular">Popular</router-link>
+      </p>
+      <p class="aside__top__link">
+        <router-link to="/discaver">Discover</router-link>
+      </p>
+      <p class="aside__top__link">
+        <router-link to="/categories">Categories</router-link>
+      </p>
     </li>
     <li class="aside__center__item">
-      <a href="#" class="aside__top__link">Favorites</a>
-      <a href="#" class="aside__top__link">Watch later</a>
+      <router-link to="/favorites">
+        Favorites
+      </router-link>
+
+      <router-link to="later">Watch later</router-link>
     </li>
     <li class="aside__bottom__item">
-      <a href="#" class="aside__top__link">
-        Settings
-      </a>
+      <p class="aside__top__link">
+        <router-link to="settings">
+          Settings
+        </router-link>
+      </p>
     </li>
   </ul>
 </template>
@@ -80,15 +91,25 @@ ul {
     }
   }
   .aside__top__link {
-    color: white;
-    font-size: 18px;
-    margin-bottom: 29px;
-    &:hover {
-      color: $blue;
+    a {
+      color: white;
+      font-size: 18px;
+      margin-bottom: 29px;
+      &:hover {
+        color: $blue;
+      }
     }
   }
 }
 .aside__center__item {
   margin: 50px 0 100px 0;
+}
+.aside__center__item > a {
+  color: white;
+  font-size: 18px;
+  margin-bottom: 29px;
+  &:hover {
+    color: $blue;
+  }
 }
 </style>

@@ -6,6 +6,12 @@ import TheMovie from './components/TheMovie.vue'
 import TheMain from './components/TheMain.vue'
 import TheMovies from './components/TheMovies.vue'
 import TheSeries from './components/TheSeries.vue'
+import TheFavorites from './components/TheFavorites.vue'
+import ThePopular from './components/ThePopular.vue'
+import TheSettings from './components/TheSettings.vue'
+import TheDiscaver from './components/TheDiscaver.vue'
+import TheWatch from './components/TheWatch.vue'
+import TheCategories from './components/TheCategories.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -13,7 +19,7 @@ const router = createRouter({
 
         {
             path: '/',
-            redirect: '/home'
+            redirect: '/movies'
         },
         {
 
@@ -40,14 +46,27 @@ const router = createRouter({
 
             ]
         },
+        {path:'/favorites',component:TheFavorites},
+        {path:'/popular',component:ThePopular},
+        {path:'/discaver',component:TheDiscaver},
+        {path:'/categories',component:TheCategories},
+        {path:'/later',component:TheWatch},
+        {path:'/settings',component:TheSettings},
         {
-            path: '/tvseries',
-            component: TheSeries
+            path: '/series',
+            component: TheSeries,
+             children: [{
+                    path: ':datu',
+                    component: TheMovie,
+                    props: true
+                },
+
+            ]
         },
     ],
     linkActiveClass: 'active2',
     scrollBehavior(to, from, savedPostion) {
-          console.log(to, from, savedPostion);
+        //   console.log(to, from, savedPostion);
         if (savedPostion) {
             return savedPostion
         }

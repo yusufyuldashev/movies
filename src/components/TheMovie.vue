@@ -77,7 +77,7 @@
           </div>
           <div class="right__data">
             <h2 class="right__data__title">
-              {{ movies.title }}
+              {{ movies.title || movies.name }}
               <span>({{ sliceTitle }})</span>
             </h2>
             <div class="right__data__wrapper">
@@ -98,33 +98,67 @@
                 <br />
                 счёт
               </p>
-              <div class="right__main__fourth">
-                <img
-                  src="../assets/korzinka.svg"
-                  alt="korzinka"
-                  class="right__main__fourth__image"
-                />
+              <div class="right__main__fourth" @click="addToMarket">
+                <svg
+                  id="glyphicons-basic"
+                  width="16px"
+                  height="16px"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 32 32"
+                >
+                  <path
+                    :class="{ green: market }"
+                    fill="#ffffff"
+                    id="thumbnails-list"
+                    d="M11,14v4a1,1,0,0,1-1,1H6a1,1,0,0,1-1-1V14a1,1,0,0,1,1-1h4A1,1,0,0,1,11,14Zm-1,7H6a1,1,0,0,0-1,1v4a1,1,0,0,0,1,1h4a1,1,0,0,0,1-1V22A1,1,0,0,0,10,21ZM10,5H6A1,1,0,0,0,5,6v4a1,1,0,0,0,1,1h4a1,1,0,0,0,1-1V6A1,1,0,0,0,10,5Zm17,6H14a1,1,0,0,0-1,1v1a1,1,0,0,0,1,1H27a1,1,0,0,0,1-1V12A1,1,0,0,0,27,11Zm0-6H14a1,1,0,0,0-1,1V7a1,1,0,0,0,1,1H27a1,1,0,0,0,1-1V6A1,1,0,0,0,27,5Zm0,18H14a1,1,0,0,0-1,1v1a1,1,0,0,0,1,1H27a1,1,0,0,0,1-1V24A1,1,0,0,0,27,23Zm0-6H14a1,1,0,0,0-1,1v1a1,1,0,0,0,1,1H27a1,1,0,0,0,1-1V18A1,1,0,0,0,27,17Z"
+                  />
+                </svg>
               </div>
-              <div class="right__main__five">
-                <img
-                  src="../assets/heart.svg"
-                  alt="heart"
-                  class="right__main__five__image"
-                />
+              <div class="right__main__five" @click="addToCart(movies.id)">
+                <svg
+                  id="glyphicons-basic"
+                  width="16px"
+                  height="16px"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 32 32"
+                >
+                  <path
+                    :class="{ red: id === movies.id }"
+                    fill="#ffffff"
+                    id="heart"
+                    d="M27.78131,11.92578c0,4.82666-6.13562,8.68128-11.0376,14.0686a.99978.99978,0,0,1-1.48742,0c-4.902-5.38732-11.03748-9.24194-11.03748-14.0686,0-5.52954,7.53626-9.48682,11.57507-3.82544a.25855.25855,0,0,0,.42029.00562C20.47992,2.43628,27.78131,6.39453,27.78131,11.92578Z"
+                  />
+                </svg>
               </div>
-              <div class="right__main__six">
-                <img
-                  src="../assets/chosen.svg"
-                  alt="heart"
-                  class="right__main__six__image"
-                />
+              <div class="right__main__six" @click="addToChosen">
+                <svg
+                  id="glyphicons-basic"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 32 32"
+                  width="16px"
+                  height="16px"
+                >
+                  <path
+                    :class="{ black: chosen }"
+                    fill="#ffffff"
+                    id="bookmark"
+                    d="M25,6V26.58582a1,1,0,0,1-1.70709.70715L16.5,20.5,9.70709,27.293A1,1,0,0,1,8,26.58582V6a2.00006,2.00006,0,0,1,2-2H23A2.00006,2.00006,0,0,1,25,6Z"
+                  />
+                </svg>
               </div>
-              <div class="right__main__seven">
-                <img
-                  src="../assets/star.svg"
-                  alt="heart"
-                  class="right__main__seven__image"
-                />
+              <div class="right__main__seven" @click="addToStar">
+                <svg
+                  id="glyphicons-basic"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 32 32"
+                >
+                  <path
+                    :class="{ yellow: star }"
+                    fill="#ffffff"
+                    id="star"
+                    d="M27.34766,14.17944l-6.39209,4.64307,2.43744,7.506a.65414.65414,0,0,1-.62238.85632.643.643,0,0,1-.38086-.12744l-6.38568-4.6383-6.38574,4.6383a.643.643,0,0,1-.38086.12744.65419.65419,0,0,1-.62238-.85632l2.43744-7.506L4.66046,14.17944A.65194.65194,0,0,1,5.04358,13h7.89978L15.384,5.48438a.652.652,0,0,1,1.24018,0L19.06476,13h7.89978A.652.652,0,0,1,27.34766,14.17944Z"
+                  />
+                </svg>
               </div>
               <div class="right__main__eight" @click="vidyoClicked">
                 <img
@@ -146,7 +180,20 @@
         </div>
       </div>
     </div>
-    <base-dialog :id="movies.id" v-if="open" @close="handleError"></base-dialog>
+    <div v-if="movies.title">
+      <base-dialog
+        :id="movies.id"
+        v-if="open"
+        @close="handleError"
+      ></base-dialog>
+    </div>
+    <div v-if="!movies.title">
+      <base-series
+        :id="movies.id"
+        v-if="open"
+        @close="handleError"
+      ></base-series>
+    </div>
   </section>
 </template>
 
@@ -165,6 +212,14 @@ export default {
       basicClick: false,
       searched: false,
       open: false,
+      heart: false,
+      chosen: false,
+      star: false,
+      market: false,
+      items: [],
+      idx: false,
+      id: 0,
+      // idx: 0,
     }
   },
   created() {
@@ -174,6 +229,7 @@ export default {
     datu(newId) {
       this.h(newId)
     },
+
     // adult(){
     //  if(this.movies){
     //  return  this.teen = true
@@ -195,7 +251,7 @@ export default {
       }
     },
     sliceTitle() {
-      return this.movies.release_date
+      return this.movies.release_date || this.movies.first_air_date
     },
     changeAge() {
       if (this.datas) {
@@ -219,6 +275,25 @@ export default {
   },
 
   methods: {
+    addToMarket() {
+      this.market = !this.market
+    },
+    addToStar() {
+      this.star = !this.star
+    },
+    addToCart(id) {
+      //movies.indexOf(movies) === -1
+      this.id = id
+      this.$store.dispatch('storeMovies', this.movies)
+      // if (this.idx === false) {
+      //   this.$store.dispatch('removeMovies', this.movies)
+      // }
+
+      // console.log(this.datas.forEach((data) => data))
+    },
+    addToChosen() {
+      this.chosen = !this.chosen
+    },
     handleError() {
       this.open = false
     },
@@ -272,6 +347,21 @@ export default {
 @import url('../../node_modules/@egjs/vue-flicking/dist/flicking.css');
 // Or, if you have to support IE9
 @import url('../../node_modules/@egjs/vue-flicking/dist/flicking-inline.css');
+.red {
+  fill: red;
+}
+.white {
+  fill: white;
+}
+.green {
+  fill: green;
+}
+.yellow {
+  fill: yellow;
+}
+.black {
+  fill: black;
+}
 .vidyoIframe {
   margin-top: 30px;
 }
@@ -419,19 +509,23 @@ export default {
       display: flex;
       margin-top: 0 !important;
       align-items: center;
-      .right__main__fourth__image,
-      .right__main__five__image,
-      .right__main__six__image,
-      .right__main__seven__image,
-      .right__main__eight__image {
-        background-color: #032541;
-        width: 20px !important;
-        padding: 13px;
-        border-radius: 50%;
-        font-size: 20px;
-        height: 20px;
-        margin-left: 15px;
-        cursor: pointer;
+      .right__main__fourth,
+      .right__main__five,
+      .right__main__six,
+      .right__main__seven,
+      .right__main__eight {
+        svg {
+          background-color: #032541;
+          width: 20px !important;
+          padding: 13px;
+
+          border-radius: 50%;
+          font-size: 20px;
+          height: 20px;
+          margin-left: 15px;
+          cursor: pointer;
+        }
+        user-select: none;
       }
       .right__main__first {
         padding: 10px 5px 10px 10px;
@@ -455,9 +549,10 @@ export default {
 
       .right__main__eight {
         display: flex;
-        margin-left: 3px;
+        margin-left: 13px;
         cursor: pointer;
         align-items: center;
+
         img {
           background-color: transparent;
           padding: 0;
@@ -467,6 +562,9 @@ export default {
           color: white;
           margin-left: 6px;
           font-weight: bold;
+          &:hover {
+            color: $blue;
+          }
         }
       }
     }

@@ -6,6 +6,7 @@
     <div v-if="clicked2">
       <router-view :datas="datas" :click="clicked2" :all2="all2"></router-view>
     </div>
+
     <div class="container" v-if="!isLoading && !clicked2">
       <header>
         <ul
@@ -550,6 +551,9 @@ export default {
     scrollToTop() {
       window.scrollTo(0, 0)
     },
+    scrollToBottom() {
+      window.scrollTo(0, document.body.scrollHeight)
+    },
     async fetchHomePage2() {
       const api_key = `e10a98df5c335fc5102ecda2cf9b7dbf`
       const base_url = 'https://api.themoviedb.org/3'
@@ -611,7 +615,17 @@ export default {
 .activate {
   top: 0;
 }
+.bottom__arrow {
+  position: fixed;
+  background: $grey;
+  border: none;
 
+  cursor: pointer;
+  right: 25px;
+  bottom: 20px;
+  padding: 4px;
+  border-radius: 10px;
+}
 .searchTitle {
   color: white;
   font-weight: normal;
@@ -640,6 +654,8 @@ export default {
 .main__list {
   display: flex;
   position: relative;
+  font-family: 'Roboto';
+
   list-style: none;
   align-items: flex-start;
   flex-wrap: wrap;

@@ -5,47 +5,40 @@ import {
 const store = createStore({
     state() {
         return {
-            data: {},
-            searchValue: ''
+            movies:[]
         }
     },
     mutations: {
-        setData(state, payload) {
-            state.data = payload
-        },
-        setSearchValue(state, value) {
-            state.searchValue = value
+        moviesMutation(state, payload) {
+                state.movies.push(payload);
+                
+        
+    },
+        
+        removeMutation(state,payload) {
+            state.movies.splice(payload,1)
         }
     },
 
     getters: {
-        getData(state) {
-            return state.data
+        moviesGetter(state) {
+         return [...new Map(state.movies.map((item) => [item["id"], item])).values()]
         },
-        searchValue2(state) {
-            return state.searchValue
-        }
+        
+       
     },
     actions: {
-        getSearchValue(context, payload) {
-            context.commit('setSearchValue', payload)
+        removeMovies(context, payload) {
+                
+                context.commit('removeMutation',payload)
         },
-        async getMovies(context) {
-            let moviePage = 1
-            let searchValue = "marvel"
-            const KEY = "ec6105fc"
-            const response = await fetch(`https://www.omdbapi.com/?apikey=${KEY}&s=${searchValue}&page=${moviePage}`)
-            const responseData = await response.json()
-            if (!response.ok) {
-                console.log(responseData)
-                const error = new Error(responseData.message || 'failed to fetch')
-                throw error
-            }
-            // console.log(responseData.Search)
-            context.commit('setData', responseData.Search)
-
+        storeMovies(context, payload) {
+           
+                
+            context.commit('moviesMutation', payload)
         }
-    }
+      
+    },
 })
 
 export default store

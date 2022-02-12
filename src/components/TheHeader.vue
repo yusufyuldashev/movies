@@ -12,7 +12,7 @@
         <div class="wrapper__brands">
           <router-link to="/movies">movies &nbsp;</router-link>
           <span>|</span>
-          <router-link to="/tvseries">TV series</router-link>
+          <router-link to="/series">TV series</router-link>
         </div>
         <form class="wrapper__form" @submit.prevent="searchData(newMovies)">
           <label for="input" class="wrapper__center">
@@ -46,7 +46,7 @@
               <img class="icon" src="../assets/bell-plus.png" alt="mail" />
             </button>
           </div>
-          <button type="button" class="man__button">
+          <button type="button" class="man__button" @click="click">
             <img src="../assets/man.png" alt="man" class="img__man" />
           </button>
         </div>
@@ -58,6 +58,9 @@
         :all2="all2"
       ></router-view>
     </nav>
+    <button type="button" class="bottom__arrow" @click="scrollToBottom">
+      <img src="../assets/bottom.png" alt="bottom" />
+    </button>
   </div>
 </template>
 
@@ -86,8 +89,14 @@ export default {
   },
 
   methods: {
+    click() {
+      console.log(this.$store.getters.moviesGetter)
+    },
     takeValue(value) {
       this.all = value
+    },
+    scrollToBottom() {
+      window.scrollTo(0, document.body.scrollHeight)
     },
     async searchData(value) {
       const api_key = `e10a98df5c335fc5102ecda2cf9b7dbf`
@@ -113,6 +122,17 @@ export default {
 
 <style scoped lang="scss">
 @import '../sass/_colors.scss';
+.bottom__arrow {
+  position: fixed;
+  background: $grey;
+  border: none;
+
+  cursor: pointer;
+  right: 25px;
+  bottom: 20px;
+  padding: 4px;
+  border-radius: 10px;
+}
 .line {
   height: 220vh;
   margin-left: 130px;
