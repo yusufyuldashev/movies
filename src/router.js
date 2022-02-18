@@ -48,7 +48,16 @@ const router = createRouter({
         },
         {path:'/favorites',component:TheFavorites},
         {path:'/popular',component:ThePopular},
-        {path:'/discaver',component:TheDiscaver},
+        {
+            path: '/discaver', component: TheDiscaver, 
+            children: [{
+                    path: ':datu',
+                component: TheMovie,
+                    meta: { disableScroll: true },
+                    props: true
+                },
+
+            ]},
         {path:'/categories',component:TheCategories},
         {path:'/later',component:TheWatch},
         {path:'/settings',component:TheSettings},
@@ -67,12 +76,16 @@ const router = createRouter({
     linkActiveClass: 'active2',
     scrollBehavior(to, from, savedPostion) {
         //   console.log(to, from, savedPostion);
+        if (to.matched.some(m => m.meta.disableScroll)) return;
         if (savedPostion) {
             return savedPostion
         }
-        return {
-            left: 0,
-            top: 0
+        else {
+            
+            return {
+                left: 0,
+                top: 0
+            }
         }
 
 

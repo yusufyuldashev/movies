@@ -27,6 +27,10 @@
         </li>
       </ul>
     </div>
+    <div class="card" v-if="movies == ''">
+      <h1><VueWriter :array="arr" /></h1>
+      <router-link to="/movies">Movies</router-link>
+    </div>
   </section>
 </template>
 
@@ -34,9 +38,11 @@
 export default {
   data() {
     return {
-      mo: [],
+      mo: false,
+      arr: ['Please go to the movies section and click like'],
     }
   },
+  watch: {},
   computed: {
     movies() {
       return this.$store.getters.moviesGetter
@@ -53,6 +59,26 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.card {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  padding: 1rem;
+  margin: 10rem auto;
+  max-width: 40rem;
+  a {
+    text-decoration: none;
+    text-align: right;
+    display: block;
+    color: #2d2d42;
+    font-family: 'Roboto';
+    font-size: 20px;
+  }
+}
+h1 {
+  text-align: center;
+  color: #2496ff;
+  font-size: 30px;
+}
 .favorites {
   text-align: center;
   color: rgb(14, 180, 231);

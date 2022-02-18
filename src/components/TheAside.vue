@@ -95,7 +95,8 @@ ul {
       color: white;
       font-size: 18px;
       margin-bottom: 29px;
-      &:hover {
+      &:hover,
+      &.active2 {
         color: $blue;
       }
     }

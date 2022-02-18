@@ -1,8 +1,16 @@
 <template>
   <section>
-    <div class="spinner__center" v-if="isLoading">
-      <the-spinner></the-spinner>
-    </div>
+    <base-thedialog
+      :show="!!error"
+      title="An error ocured!!"
+      @close="handleError"
+    >
+      <p>{{ error }}</p>
+    </base-thedialog>
+    <base-thedialog :show="isLoading" title="Loading..." fixed>
+      <p>Please wait</p>
+      <base-spinner></base-spinner>
+    </base-thedialog>
     <div v-if="clicked2 && !isLoading">
       <router-view
         :datas="datasMovie"
@@ -173,6 +181,7 @@ export default {
       addPage: 2,
       genrex: null,
       isLoading: false,
+      error: null,
     }
   },
   computed: {
@@ -197,6 +206,9 @@ export default {
   },
 
   methods: {
+    handleError() {
+      this.error =null
+    },
     changePage(pageNumber) {
       this.page = pageNumber
       console.log(this.addPage)
@@ -217,6 +229,7 @@ export default {
       }
     },
     genreClick(genre) {
+      this.isLoading = true
       this.selectedGenres = genre
       this.addPage = 1
       this.fetchHomePage5()
@@ -225,8 +238,10 @@ export default {
           this.genrex = genre
         }
       })
+      this.isLoading = false
       console.log(this.genre)
     },
+
     async fetchSearched(datas) {
       this.datasMovie = await datas
     },
@@ -256,8 +271,10 @@ export default {
           })
 
         return response
-      } catch (e) {
-        console.log(e)
+      } catch (err) {
+        this.error =
+          err.message ||
+          'failed to authendicate , try  later check  your login data'
       }
     },
   },

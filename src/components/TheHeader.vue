@@ -8,7 +8,10 @@
       <img class="line__img" src="../assets/Line1.png" alt="line" />
     </div>
     <nav>
-      <div class="container">
+      <div
+        class="container fixing__part"
+        :class="{ 'scrolled-nav': scrolledNav }"
+      >
         <div class="wrapper__brands">
           <router-link to="/movies">movies &nbsp;</router-link>
           <span>|</span>
@@ -81,6 +84,8 @@ export default {
       newMovies: '',
       movies: '',
       data3: [],
+      scrollPosition: null,
+      scrolledNav: null,
     }
   },
 
@@ -88,7 +93,18 @@ export default {
     ...mapGetters(['searchValue']),
   },
 
+  mounted() {
+    window.addEventListener('scroll', this.updateScroll)
+  },
   methods: {
+    updateScroll() {
+      const scrollPosition = window.scrollY
+      if (scrollPosition > 70) {
+        this.scrolledNav = true
+        return
+      }
+      this.scrolledNav = false
+    },
     click() {
       console.log(this.$store.getters.moviesGetter)
     },
@@ -122,6 +138,29 @@ export default {
 
 <style scoped lang="scss">
 @import '../sass/_colors.scss';
+@keyframes onTop {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+.scrolled-nav {
+  //
+  padding-top: 10px;
+  top: 0;
+  left: 0;
+  transition: all 300ms ease-in-out;
+  width: 100%;
+  position: sticky;
+  z-index: 9999;
+  animation: onTop 0.5s linear;
+}
+.fixing__part {
+  background-color: $black;
+  padding-bottom: 10px;
+}
 .bottom__arrow {
   position: fixed;
   background: $grey;

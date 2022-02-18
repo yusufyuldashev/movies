@@ -1,14 +1,18 @@
 <template>
   <section>
-    <div class="spinner__center" v-if="isLoading">
-      <h3>Loading..</h3>
-    </div>
+    <base-thedialog
+      :show="!!error"
+      title="An error ocured!!"
+      @close="handleError"
+    >
+      <p>{{ error }}</p>
+    </base-thedialog>
+    <base-thedialog :show="isLoading" title="Loading..." fixed>
+      <p>Please wait</p>
+      <base-spinner></base-spinner>
+    </base-thedialog>
     <div v-if="clicked2 && !isLoading">
-      <router-view
-        :datas="datasMovie"
-        :click="clicked2"
-        :all2="all2"
-      ></router-view>
+      <router-view :datas="datasMovie" :all2="all2"></router-view>
     </div>
     <div class="container" v-if="!clicked2 && !isLoading">
       <h1 class="main__title">TV series</h1>
@@ -161,6 +165,7 @@ export default {
       addPage: 2,
       genrex: null,
       isLoading: false,
+      error: null,
     }
   },
   computed: {
@@ -185,6 +190,9 @@ export default {
   },
 
   methods: {
+    handleError() {
+      this.error = null
+    },
     changePage(pageNumber) {
       this.page = pageNumber
       console.log(this.addPage)
@@ -215,14 +223,13 @@ export default {
         }
       })
       this.isLoading = false
-      console.log(this.genre)
+      // console.log(this.genre)
     },
     async fetchSearched(datas) {
       this.datasMovie = await datas
     },
 
     async fetchHomePage5() {
-      this.isLoading = true
       try {
         const api_key = 'api_key=e10a98df5c335fc5102ecda2cf9b7dbf'
         const base_url = 'https://api.themoviedb.org/3'
@@ -245,11 +252,12 @@ export default {
             // console.log(api)
             return res.data.results
           })
-        this.isLoading = false
 
         return response
-      } catch (e) {
-        console.log(e)
+      } catch (err) {
+        this.error =
+          err.message ||
+          'failed to authendicate , try  later check  your login data'
       }
     },
   },
