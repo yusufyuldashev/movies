@@ -106,7 +106,7 @@ const store = createStore({
         async discoverMovies(context ) {
 
                 const api_key = 'api_key=e10a98df5c335fc5102ecda2cf9b7dbf'
-                const base_url = 'http://api.themoviedb.org/3'
+                const base_url = 'https://api.themoviedb.org/3'
                 const api_url =   base_url +`/discover/movie/?certification_country=US&certification=R&sort_by=vote_average.desc&${api_key}`
                 const response = await fetch(api_url)
                 const responseData = await response.json()
