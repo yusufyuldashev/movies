@@ -9,10 +9,18 @@ const store = createStore({
             discover:[],
             discover2:[],
             discover3:[],
-            discover4:[],
+            discover4: [],
+             userId: null,
+            token: null,
+            tokenExpiration: null,
         }
     },
     mutations: {
+         setUser(state, payload) {
+        state.token = payload.token
+        state.userId = payload.userId
+        state.tokenExpiration = payload.tokenExpiration
+    },
         moviesMutation(state, payload) {
                 state.movies.push(payload);
                 
@@ -50,11 +58,69 @@ const store = createStore({
         },
            discoverGetters4(state) {
             return state.discover4
-        }
+        },
+             userId(state) {
+        return state.userId;
+    },
+    token(state) {
+        return state.token
+    },
+    isAuthendicated(state) {
+        return !!state.token
+    },
         
        
     },
     actions: {
+         async login(context, payload) {
+         const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDkiMRrQzEH4Qg8vKhJJiV4TRx1_OmZvGw', {
+             method: 'POST',
+             body: JSON.stringify({
+                 email: payload.email,
+                 password: payload.password,
+                 returnSecureToken: true
+             })
+         })
+         const responseData = await response.json()
+         if (!response.ok) {
+             console.log(responseData)
+             const error = new Error(responseData.message || 'Failed to authendicate.check again')
+             throw error
+         }
+         localStorage.setItem('token', responseData.idToken),
+             localStorage.setItem('userId', responseData.localId),
+             console.log(responseData)
+         context.commit('setUser', {
+             token: responseData.idToken,
+             userId: responseData.localId,
+             tokenExpiration: responseData.expiresIn
+         })
+
+     },
+        async signup(context, payload) {
+            const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDkiMRrQzEH4Qg8vKhJJiV4TRx1_OmZvGw', {
+             method: 'POST', 
+             body: JSON.stringify({
+                 email: payload.email,
+                 password: payload.password,
+                 returnSecureToken: true
+             })
+            })
+            const responseData = await response.json()
+             if (!response.ok) {
+             console.log(responseData)
+             const error = new Error(responseData.message || 'This email was used please try with a new one')
+                 throw error
+                 
+            }
+             localStorage.setItem('token', responseData.idToken)
+         localStorage.setItem('userId', responseData.localId)
+         context.commit('setUser', {
+             token: responseData.idToken,
+             userId: responseData.localId,
+             tokenExpiration: responseData.expiresIn
+         })
+        },
          async discoverMovies4(context ) {
 
                 const api_key = 'api_key=e10a98df5c335fc5102ecda2cf9b7dbf'

@@ -12,6 +12,8 @@ import TheSettings from './components/TheSettings.vue'
 import TheDiscaver from './components/TheDiscaver.vue'
 import TheWatch from './components/TheWatch.vue'
 import TheCategories from './components/TheCategories.vue'
+import TheSignin from './components/TheSignin.vue'
+import TheSignup from './components/TheSignup.vue'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -19,7 +21,7 @@ const router = createRouter({
 
         {
             path: '/',
-            redirect: '/movies'
+            redirect: '/login'
         },
         {
 
@@ -46,6 +48,8 @@ const router = createRouter({
 
             ]
         },
+        {path:'/login',component:TheSignin},
+        {path:'/signup',component:TheSignup},
         {path:'/favorites',component:TheFavorites},
         {path:'/popular',component:ThePopular},
         {

@@ -15,6 +15,7 @@ import BaseButton from './components/ui/BaseButton.vue'
 import VueWriter from "vue-writer";
 import BaseMovies from './components/ui/BaseMovies.vue'
 import TheButton from './components/ui/TheButton.vue'
+
 const app = createApp(App)
 app.use(createRouter);
 app.use(store)

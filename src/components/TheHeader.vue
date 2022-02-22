@@ -146,17 +146,7 @@ export default {
     transform: translateY(0);
   }
 }
-.scrolled-nav {
-  //
-  padding-top: 10px;
-  top: 0;
-  left: 0;
-  transition: all 300ms ease-in-out;
-  width: 100%;
-  position: sticky;
-  z-index: 9999;
-  animation: onTop 0.5s linear;
-}
+
 .fixing__part {
   background-color: $black;
   padding-bottom: 10px;

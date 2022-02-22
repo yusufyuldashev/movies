@@ -18,7 +18,7 @@ export default {
 div {
   background-color: #20202b;
 }
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;

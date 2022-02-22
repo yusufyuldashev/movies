@@ -64,11 +64,13 @@ ul {
     .aside__home {
       padding-bottom: 20px;
       font-weight: normal;
+      position: relative;
 
       p {
         color: white;
         margin: 0;
         position: absolute;
+        top: -18px;
       }
       .aside__top__wrapper {
         cursor: pointer;
@@ -77,10 +79,13 @@ ul {
         align-items: center;
         .aside__top__title {
           margin-left: 4px;
+          position: relative;
+          top: 5px;
           a {
             color: white;
             font-weight: 400;
             font-size: 18px;
+
             &:hover,
             &.active2 {
               color: $blue;

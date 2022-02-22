@@ -13,19 +13,19 @@ export default {
     mode: {
       type: String,
       required: false,
-      default: null
+      default: null,
     },
     link: {
       type: Boolean,
       required: false,
-      default: false
+      default: false,
     },
     to: {
       type: String,
       required: false,
-      default: '/'
-    }
-  }
+      default: '/',
+    },
+  },
 }
 </script>
 
@@ -35,8 +35,8 @@ a {
   text-decoration: none;
   padding: 0.75rem 1.5rem;
   font: inherit;
-  background-color: #3a0061;
-  border: 1px solid #3a0061;
+  background-color: black;
+  border: 1px solid black;
   color: white;
   cursor: pointer;
   border-radius: 30px;
@@ -48,7 +48,7 @@ a:hover,
 a:active,
 button:hover,
 button:active {
-  background-color: #270041;
+  background-color: blue;
   border-color: #270041;
 }
 

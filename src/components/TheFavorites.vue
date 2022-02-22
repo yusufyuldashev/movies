@@ -65,6 +65,8 @@ export default {
   padding: 1rem;
   margin: 10rem auto;
   max-width: 40rem;
+  background: transparent;
+
   a {
     text-decoration: none;
     text-align: right;
