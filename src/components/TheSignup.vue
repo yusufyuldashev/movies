@@ -219,6 +219,7 @@ export default {
         await this.$store.dispatch('signup', {
           email: this.email.value,
           password: this.password.value,
+          name: this.name.value,
           returnSecureToken: true,
         })
         this.$router.replace('/movies')

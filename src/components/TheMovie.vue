@@ -515,13 +515,9 @@ export default {
       .right__main__seven,
       .right__main__eight {
         svg {
-          background-color: #032541;
-          width: 20px !important;
-          padding: 13px;
-
-          border-radius: 50%;
-          font-size: 20px;
-          height: 20px;
+          // border-radius: 50%;
+          width: 30px !important;
+          height: 50px;
           margin-left: 15px;
           cursor: pointer;
         }
@@ -551,7 +547,7 @@ export default {
         display: flex;
         margin-left: 13px;
         cursor: pointer;
-        align-items: center;
+        align-items: center !important;
 
         img {
           background-color: transparent;
@@ -561,6 +557,7 @@ export default {
         p {
           color: white;
           margin-left: 6px;
+          margin-top: 15px;
           font-weight: bold;
           &:hover {
             color: $blue;

@@ -10,15 +10,17 @@ const store = createStore({
             discover2:[],
             discover3:[],
             discover4: [],
-             userId: null,
+            userId: null,
             token: null,
             tokenExpiration: null,
+            
         }
     },
     mutations: {
          setUser(state, payload) {
         state.token = payload.token
-        state.userId = payload.userId
+            state.userId = payload.userId
+          
         state.tokenExpiration = payload.tokenExpiration
     },
         moviesMutation(state, payload) {
@@ -45,6 +47,9 @@ const store = createStore({
     },
 
     getters: {
+        name(state) {
+            return state.userId
+        },
         moviesGetter(state) {
          return [...new Map(state.movies.map((item) => [item["id"], item])).values()]
         },
@@ -72,6 +77,26 @@ const store = createStore({
        
     },
     actions: {
+        tryLogin(context) {
+            const token  = localStorage.getItem('token') 
+            const userId = localStorage.getItem('userId') 
+            if (token && userId) {
+                context.commit('setUser', {
+                    token: token,
+                    userId: userId,
+                    tokenExpiration:null
+                })
+            }
+        },
+        logout(context) {
+            localStorage.removeItem('token')
+            localStorage.removeItem('userId')
+            context.commit('setUser', {
+                token: null,
+                userId: null,
+                tokenExpiration:null
+            })
+         },
          async login(context, payload) {
          const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDkiMRrQzEH4Qg8vKhJJiV4TRx1_OmZvGw', {
              method: 'POST',
@@ -103,6 +128,8 @@ const store = createStore({
              body: JSON.stringify({
                  email: payload.email,
                  password: payload.password,
+                
+
                  returnSecureToken: true
              })
             })
@@ -118,6 +145,7 @@ const store = createStore({
          context.commit('setUser', {
              token: responseData.idToken,
              userId: responseData.localId,
+            
              tokenExpiration: responseData.expiresIn
          })
         },

@@ -12,11 +12,17 @@
         class="container fixing__part"
         :class="{ 'scrolled-nav': scrolledNav }"
       >
-        <div class="wrapper__brands">
+        <div class="wrapper__brands" v-if="isLoggedIn">
           <router-link to="/movies">movies &nbsp;</router-link>
           <span>|</span>
           <router-link to="/series">TV series</router-link>
         </div>
+        <div class="wrapper__brands" v-if="!isLoggedIn">
+          <router-link to="/login">movies &nbsp;</router-link>
+          <span>|</span>
+          <router-link to="/login">TV series</router-link>
+        </div>
+
         <form class="wrapper__form" @submit.prevent="searchData(newMovies)">
           <label for="input" class="wrapper__center">
             <button type="submit" class="img__center__button">
@@ -49,10 +55,27 @@
               <img class="icon" src="../assets/bell-plus.png" alt="mail" />
             </button>
           </div>
-          <button type="button" class="man__button" @click="click">
+          <button type="button" class="man__button" @click="auth">
             <img src="../assets/man.png" alt="man" class="img__man" />
           </button>
         </div>
+        <transition name="nav__transition">
+          <ul v-show="login" class="nav__toggle">
+            <li class="nav__getter">
+              It is your User Id:{{ this.$store.getters.name }}
+            </li>
+            <li class="nav__item" v-if="!isLoggedIn">
+              <router-link to="/signup">Sign Up</router-link>
+            </li>
+
+            <li class="nav__item" v-if="!isLoggedIn">
+              <router-link to="/login">Sign In</router-link>
+            </li>
+            <li class="nav__item" v-if="isLoggedIn" @click="logOut">
+              <router-link to="/logout">Log Out</router-link>
+            </li>
+          </ul>
+        </transition>
       </div>
       <!-- <the-main></the-main> -->
       <router-view
@@ -86,17 +109,30 @@ export default {
       data3: [],
       scrollPosition: null,
       scrolledNav: null,
+      login: false,
     }
   },
 
   computed: {
+    isLoggedIn() {
+      return this.$store.getters.isAuthendicated
+    },
     ...mapGetters(['searchValue']),
+    Fullname() {
+      return this.$store.getters.name
+    },
   },
 
   mounted() {
     window.addEventListener('scroll', this.updateScroll)
   },
   methods: {
+    logOut() {
+      if (this.$store.dispatch('logout')) {
+        this.$router.replace('/login')
+      }
+    },
+
     updateScroll() {
       const scrollPosition = window.scrollY
       if (scrollPosition > 70) {
@@ -105,8 +141,8 @@ export default {
       }
       this.scrolledNav = false
     },
-    click() {
-      console.log(this.$store.getters.moviesGetter)
+    auth() {
+      this.login = !this.login
     },
     takeValue(value) {
       this.all = value
@@ -138,6 +174,51 @@ export default {
 
 <style scoped lang="scss">
 @import '../sass/_colors.scss';
+.nav__getter {
+  text-align: center;
+  width: 105px !important;
+  overflow: hidden;
+  font-weight: bold;
+  color: black !important;
+}
+.nav__toggle {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  width: 158px;
+  height: 100%;
+  background-color: grey;
+  top: 0;
+  left: 0;
+  li {
+    font-family: 'Roboto';
+    color: white;
+    font-size: 24px;
+    margin: 45px 0;
+    cursor: pointer;
+    a {
+      color: white;
+      text-decoration: none;
+      &:hover {
+        color: #2496ff;
+        font-weight: bold;
+      }
+    }
+  }
+}
+.nav__transition-enter-active,
+.nav__transition-leave-active {
+  transition: all 0.6s linear;
+}
+.nav__transition-enter-from,
+.nav__transition-leave-to {
+  transform: translateX(-250px);
+}
+.nav__transition-enter-to {
+  transform: translateX(0);
+}
 @keyframes onTop {
   0% {
     transform: translateY(-100%);
