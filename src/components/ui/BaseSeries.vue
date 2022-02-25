@@ -1,10 +1,9 @@
 <template>
   <teleport to="body">
     <div v-if="id" @click="tryClose" class="backdrop"></div>
-    <h4>you have to press the play button 1 or 2 times to watch the movie</h4>
     <dialog open v-if="id">
       <iframe
-        :src="`https://autoembed.xyz/tv/tmdb/${id}-1-1`"
+        :src="`https://www.youtube.com/embed/${youtube}`"
         width="100%"
         height="100%"
         frameborder="0"
@@ -16,15 +15,38 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   props: ['id'],
   emits: ['close'],
   data() {
     return {
       open: false,
+      youtube: '',
+      error: null,
     }
   },
+  mounted() {
+    this.trailer()
+  },
   methods: {
+    async trailer() {
+      try {
+        const api_key = 'e10a98df5c335fc5102ecda2cf9b7dbf'
+        const base_url = 'https://api.themoviedb.org/3'
+        const api_url = base_url + `/tv/${this.id}/videos?api_key=${api_key}`
+        const response = await axios.get(api_url).then((res) => {
+          this.youtube = res.data.results[0].key
+          return res.data.results
+        })
+
+        return response
+      } catch (err) {
+        this.error =
+          err.message ||
+          'failed to authendicate , try  later check  your login data'
+      }
+    },
     tryClose() {
       this.$emit('close')
     },
@@ -48,7 +70,7 @@ h4 {
   position: fixed;
   z-index: 111;
   font-size: 35px;
-  top: 0;
+  top: 10px;
   right: 30px;
   display: inline-block;
   cursor: pointer;

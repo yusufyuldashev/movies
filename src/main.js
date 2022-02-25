@@ -15,12 +15,14 @@ import BaseButton from './components/ui/BaseButton.vue'
 import VueWriter from "vue-writer";
 import BaseMovies from './components/ui/BaseMovies.vue'
 import TheButton from './components/ui/TheButton.vue'
+import VueIframe from 'vue-iframes'
 
 const app = createApp(App)
 app.use(createRouter);
 app.use(store)
 app.use(VueWriter)
 app.use(router)
+app.use(VueIframe)
 app.component('the-spinner', TheSpinner)
 app.component('base-spinner', BaseSpinner)
 app.component('the-movies', TheButton)

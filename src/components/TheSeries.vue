@@ -16,6 +16,7 @@
     </div>
     <div class="container" v-if="!clicked2 && !isLoading">
       <h1 class="main__title">TV series</h1>
+
       <ul class="movies__genres">
         <li
           class="movie__genre"
