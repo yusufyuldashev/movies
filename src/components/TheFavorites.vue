@@ -64,7 +64,7 @@ export default {
 
 <style scoped lang="scss">
 section {
-  height: 90vh !important;
+  height: 100vh !important;
 }
 .card {
   border-radius: 12px;
