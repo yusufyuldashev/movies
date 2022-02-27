@@ -748,6 +748,7 @@ export default {
   margin-right: 10px;
   cursor: pointer;
   user-select: none;
+  color: green;
   &:hover {
     color: $blue;
   }
@@ -756,7 +757,7 @@ export default {
   cursor: pointer;
   margin-left: 10px;
   user-select: none;
-  color: black;
+  color: green;
   &:hover {
     color: $blue;
   }
