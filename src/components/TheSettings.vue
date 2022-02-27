@@ -15,9 +15,6 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-section {
-  height: 100vh;
-}
 .card {
   border-radius: 12px;
   overflow: hidden;

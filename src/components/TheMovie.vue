@@ -710,9 +710,9 @@ export default {
     align-items: center !important;
   }
   .wrapper__data {
-    height: 55vh !important;
+    height: 70vh !important;
     .big__wrapper {
-      height: 55vh !important;
+      height: 70vh !important;
     }
   }
 }
