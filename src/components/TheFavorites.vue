@@ -166,4 +166,32 @@ h1 {
     width: 95% !important;
   }
 }
+@media only screen and (max-width: 1150px) {
+  .main__item {
+    width: 25% !important;
+  }
+}
+@media only screen and (max-width: 992px) {
+  .main__item {
+    width: 33% !important;
+    margin: 0 0 40px 0;
+  }
+  .wrapper__rate {
+    top: 0 !important;
+    margin-left: 0 !important;
+  }
+  .main__title {
+    margin-left: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+  .main__text {
+    margin: 0 auto !important;
+  }
+}
+@media only screen and (max-width: 792px) {
+  .main__item {
+    width: 50% !important;
+  }
+}
 </style>
