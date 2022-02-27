@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container1">
     <section class="vh-100">
       <div class="container py-5 h-100">
         <div class="row d-flex align-items-center justify-content-center h-100">
@@ -189,7 +189,7 @@ export default {
   background: rgb(161, 159, 159);
 }
 
-.container {
+.container1 {
   width: 1050px;
   margin: 0 auto;
 }
@@ -199,5 +199,10 @@ export default {
   flex: 1;
   height: 1px;
   background: #eee;
+}
+@media only screen and (max-width: 1200px) {
+  .container1 {
+    width: 95% !important;
+  }
 }
 </style>

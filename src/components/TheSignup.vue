@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <section class="signup bg-image">
+  <div class="container1">
+    <section class="container signup bg-image">
       <div class="mask d-flex align-items-center h-100">
         <div class="container h-100">
           <div
@@ -257,9 +257,10 @@ export default {
 .signup {
   margin-top: 40px;
 }
-.container {
+.container1 {
   width: 1050px;
   margin: 0 auto;
+  border: 1px solid red;
 }
 .gradient-custom-3 {
   /* fallback for old browsers */
@@ -296,5 +297,10 @@ export default {
     rgba(132, 250, 176, 1),
     rgba(143, 211, 244, 1)
   );
+}
+@media only screen and (max-width: 1200px) {
+  .container1 {
+    width: 95% !important;
+  }
 }
 </style>
