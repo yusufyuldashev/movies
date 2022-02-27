@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div class="container">
+    <div class="container1">
       <h1 class="favorites">Favorites</h1>
       <ul class="main__list">
         <li
@@ -64,7 +64,7 @@ export default {
 
 <style scoped lang="scss">
 section {
-  height: 80vh !important;
+  height: 90vh !important;
 }
 .card {
   border-radius: 12px;
@@ -94,7 +94,7 @@ h1 {
   font-family: 'Roboto';
   font-size: 30px;
 }
-.container {
+.container1 {
   width: 1050px;
   margin: 0 auto;
 }
@@ -159,6 +159,11 @@ h1 {
 
       color: white;
     }
+  }
+}
+@media only screen and (max-width: 1200px) {
+  .container1 {
+    width: 95% !important;
   }
 }
 </style>
