@@ -63,6 +63,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+section {
+  height: 100vh;
+}
 .card {
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);

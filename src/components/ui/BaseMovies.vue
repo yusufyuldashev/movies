@@ -308,4 +308,53 @@ export default {
     }
   }
 }
+@media only screen and (max-width: 1150px) {
+  .main__item {
+    width: 25% !important;
+  }
+  .main__item3 {
+    width: 25% !important;
+  }
+}
+@media only screen and (max-width: 892px) {
+  .main__item {
+    width: 34% !important;
+  }
+  .main__item3 {
+    width: 33% !important;
+  }
+}
+@media only screen and (max-width: 592px) {
+  .main__item {
+    width: 51% !important;
+  }
+  .main__item3 {
+    width: 50% !important;
+  }
+}
+@media only screen and (max-width: 492px) {
+  .main__item {
+    width: 110% !important;
+  }
+  .main__item3 {
+    width: 110% !important;
+    margin-left: 50px;
+  }
+  .main__title {
+    margin-left: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+  .main__text {
+    margin: 0 auto !important;
+  }
+  .main__title3 {
+    margin-left: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+  .main__text3 {
+    margin: 0 auto !important;
+  }
+}
 </style>

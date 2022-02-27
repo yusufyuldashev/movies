@@ -499,6 +499,9 @@ img {
   margin: 0 auto;
 }
 @media only screen and (max-width: 1150px) {
+  aside {
+    padding-right: 100px !important;
+  }
   .langMovies {
     right: 50px !important  ;
     top: 0 !important;

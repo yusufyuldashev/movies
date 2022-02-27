@@ -1,8 +1,10 @@
 <template>
-  <div class="card">
-    <h1><VueWriter :array="arr" /></h1>
-    <router-link to="/movies">Movies</router-link>
-  </div>
+  <section>
+    <div class="card">
+      <h1><VueWriter :array="arr" /></h1>
+      <router-link to="/movies">Movies</router-link>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -13,6 +15,9 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+section {
+  height: 100vh;
+}
 .card {
   border-radius: 12px;
   overflow: hidden;
