@@ -72,7 +72,7 @@
       :style="{ backgroundImage: `url('${image2 + movies.backdrop_path}')` }"
     >
       <div class="big__wrapper">
-        <div class="container">
+        <div class="container1">
           <div class="left__data">
             <img
               :src="image + movies.poster_path"
@@ -499,6 +499,7 @@ export default {
 .container2 {
   width: 1050px;
   margin: 0 auto;
+  border: 1px solid red;
 }
 .wrapper__data {
   margin-top: 30px;
@@ -515,9 +516,9 @@ export default {
     height: 80vh;
   }
 
-  .container {
+  .container1 {
     width: 1050px;
-
+    border: 1px solid green;
     margin: 0 auto;
     padding-top: 16px;
     display: flex;
@@ -666,6 +667,45 @@ export default {
       color: white;
       margin-top: 0;
     }
+  }
+}
+@media only screen and (max-width: 1200px) {
+  .container1 {
+    width: 95% !important;
+  }
+  .container2 {
+    width: 95% !important;
+  }
+}
+@media only screen and (max-width: 1150px) {
+  .main__item {
+    width: 25% !important;
+  }
+  .wrapper__rate {
+    top: 0 !important;
+    margin-left: 0 !important;
+  }
+}
+@media only screen and (max-width: 892px) {
+  .main__item {
+    width: 34% !important;
+  }
+  .main__title {
+    margin-left: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+  .main__text {
+    margin: 0 auto !important;
+  }
+}
+@media only screen and (max-width: 692px) {
+  .main__item {
+    width: 50% !important;
+  }
+  .right__main__wrapper {
+    justify-content: space-between !important;
+    flex-wrap: wrap !important;
   }
 }
 </style>
