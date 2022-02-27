@@ -1044,6 +1044,7 @@ header > h3 {
   }
   .main__item {
     width: 90% !important;
+    margin: 0 auto !important;
   }
   .page__num {
     margin: 0 1px;
