@@ -1045,6 +1045,10 @@ header > h3 {
   .main__item {
     width: 90% !important;
     margin: 0 auto !important;
+    padding: 0 10px 0 0 !important;
+    img {
+      width: 111% !important;
+    }
   }
   .page__num {
     margin: 0 1px;
