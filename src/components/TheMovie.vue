@@ -499,7 +499,6 @@ export default {
 .container2 {
   width: 1050px;
   margin: 0 auto;
-  border: 1px solid red;
 }
 .wrapper__data {
   margin-top: 30px;
@@ -518,7 +517,6 @@ export default {
 
   .container1 {
     width: 1050px;
-    border: 1px solid green;
     margin: 0 auto;
     padding-top: 16px;
     display: flex;
