@@ -367,7 +367,7 @@ aside {
   position: fixed;
   left: 0;
   bottom: 0;
-  height: 100%;
+  height: 100% !important;
   z-index: 999;
   padding-left: 30px;
 }
