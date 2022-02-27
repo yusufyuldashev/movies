@@ -712,19 +712,23 @@ export default {
       width: 100% !important;
     }
     .right__data {
+      margin-top: 20px;
       width: 100% !important;
     }
   }
   .wrapper__data {
-    height: 95vh !important;
+    height: 100vh !important;
     overflow: hidden;
+    .container1 {
+      justify-content: flex-start;
+    }
     .big__wrapper {
       background-image: linear-gradient(
         to right,
         rgba(7.06%, 5.49%, 5.1%, 1) 150px,
         rgba(7.06%, 5.49%, 6.1%, 0.3) 100%
       );
-      height: 95vh !important;
+      height: 100vh !important;
     }
   }
   .big__wrapper {
