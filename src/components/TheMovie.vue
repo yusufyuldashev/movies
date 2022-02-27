@@ -7,7 +7,12 @@
         @mouseleave="intervalStart3"
         v-if="datas.length > 0"
       >
-        <h2 class="searchTitle2">Searched Movies</h2>
+        <h2 class="searchTitle2" v-if="'en' === this.$store.getters.lang">
+          Searched Movies
+        </h2>
+        <h2 class="searchTitle2" v-if="'ru' === this.$store.getters.lang">
+          Искомые фильмы
+        </h2>
 
         <Flicking
           ref="flicking3"
@@ -84,7 +89,13 @@
               <p class="right__first">
                 {{ changeAge }}
               </p>
-              <p class="right__second">{{ genres }}</p>
+              <p
+                class="right__second"
+                v-for="genre in movies.genre_ids"
+                :key="genre"
+              >
+                {{ genre }}
+              </p>
               <p class="right__third"></p>
               <p class="right__four">{{ movies.original_language }}</p>
             </div>
@@ -94,9 +105,9 @@
                 <span>%</span>
               </p>
               <p class="right__main__second">
-                Пользовательский
+                {{ user }}
                 <br />
-                счёт
+                {{ count }}
               </p>
               <div class="right__main__fourth" @click="addToMarket">
                 <svg
@@ -166,11 +177,11 @@
                   alt="play"
                   class="right__main__eight__image"
                 />
-                <p class="right__main__seven">Watch Now</p>
+                <p class="right__main__seven">{{ watchnow }}</p>
               </div>
             </div>
-            <p class="right__data__second__title">In the beginning...</p>
-            <p class="right__data__obzor">Overview</p>
+            <p class="right__data__second__title">{{ inthebegin }}</p>
+            <p class="right__data__obzor">{{ overview }}</p>
             <p class="right__data__description">
               {{ movies.overview }}
             </p>
@@ -199,7 +210,7 @@
 
 <script>
 import Flicking from '@egjs/vue3-flicking'
-
+import axios from 'axios'
 export default {
   props: ['datu', 'datas', 'click', 'all2'],
   components: {
@@ -208,6 +219,7 @@ export default {
   data() {
     return {
       movies: [],
+      genres: [],
       teen: false,
       basicClick: false,
       searched: false,
@@ -240,16 +252,53 @@ export default {
   },
   mounted() {
     this.intervalStart3()
+    this.allGenres()
+    console.log(this.movies)
   },
 
   computed: {
-    genres() {
-      if (this.movies.genre_ids) {
-        return 'action , fantasy'
+    user() {
+      if ('en' == this.$store.getters.lang) {
+        return 'User'
       } else {
-        return 'nothing'
+        return 'Пользовательский'
       }
     },
+    count() {
+      if ('en' == this.$store.getters.lang) {
+        return 'Score'
+      } else {
+        return 'счёт'
+      }
+    },
+    watchnow() {
+      if ('en' == this.$store.getters.lang) {
+        return 'Play Trailer'
+      } else {
+        return 'Воспроизвести трейлер'
+      }
+    },
+    inthebegin() {
+      if ('en' == this.$store.getters.lang) {
+        return 'In the begining ...'
+      } else {
+        return 'В начале ...'
+      }
+    },
+    overview() {
+      if ('en' == this.$store.getters.lang) {
+        return 'Overview'
+      } else {
+        return 'Обзор'
+      }
+    },
+    // genres() {
+    //   if (this.movies.genre_ids) {
+    //     return 'action , fantasy'
+    //   } else {
+    //     return 'nothing'
+    //   }
+    // },
     sliceTitle() {
       return this.movies.release_date || this.movies.first_air_date
     },
@@ -275,6 +324,28 @@ export default {
   },
 
   methods: {
+    async allGenres() {
+      try {
+        const api_key = 'api_key=e10a98df5c335fc5102ecda2cf9b7dbf'
+        const base_url = 'https://api.themoviedb.org/3'
+        const api_url =
+          base_url +
+          `/genre/movie/list?&${api_key}&language=${this.$store.getters.lang}`
+        const api = api_url + '&with_genres=' + this.selectedGenres
+        const response = await axios.get(api).then((res) => {
+          this.genres = res.data.results
+
+          // this.genres = res.data.genres
+          return res.data.genres
+        })
+
+        return response
+      } catch (err) {
+        this.error =
+          err.message ||
+          'failed to authendicate , try  later check  your login data'
+      }
+    },
     addToMarket() {
       this.market = !this.market
     },

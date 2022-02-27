@@ -15,7 +15,7 @@
       <router-view :datas="datas" :click="clicked2" :all2="all2"></router-view>
     </div>
 
-    <div class="container" v-if="!isLoading && !clicked2">
+    <div class="container" v-if="!isLoading">
       <header>
         <ul
           class="main__list"
@@ -23,7 +23,12 @@
           @mouseleave="intervalStart3"
           v-if="datas.length > 0"
         >
-          <h2 class="searchTitle">Searched Movies</h2>
+          <h2 class="searchTitle" v-if="'en' === this.$store.getters.lang">
+            Searched Movies
+          </h2>
+          <h2 class="searchTitle" v-if="'ru' === this.$store.getters.lang">
+            Искомые фильмы
+          </h2>
 
           <Flicking
             ref="flicking3"
@@ -539,7 +544,7 @@ export default {
         const pagination = this.page
         const api_url =
           base_url +
-          `/discover/movie?sort_by=popularity.desc&${api_key}&page=${pagination}`
+          `/discover/movie?sort_by=popularity.desc&${api_key}&page=${pagination}&language=${this.$store.getters.lang}`
         const response = await axios
           .get(api_url, {
             params: {
@@ -571,7 +576,9 @@ export default {
     async fetchHomePage2() {
       const api_key = `e10a98df5c335fc5102ecda2cf9b7dbf`
       const base_url = 'https://api.themoviedb.org/3'
-      const api_url = base_url + `/discover/movie?api_key=${api_key}&page=3`
+      const api_url =
+        base_url +
+        `/discover/movie?api_key=${api_key}&page=3&language=${this.$store.getters.lang}`
       const response = await axios
         .get(api_url)
         .then((res) => {
@@ -660,7 +667,8 @@ export default {
     button {
       border: none;
       cursor: pointer;
-      background-color: $black;
+
+      background-color: transparent;
     }
   }
 }
@@ -748,6 +756,7 @@ export default {
   cursor: pointer;
   margin-left: 10px;
   user-select: none;
+  color: black;
   &:hover {
     color: $blue;
   }
@@ -843,15 +852,17 @@ main {
       .header__over__list {
         display: flex;
         padding-left: 15px;
-        align-items: center;
+        align-items: center !important;
         justify-content: space-between;
         .wrapper__over {
           display: flex;
           align-items: center;
         }
-
+        .header1 {
+          margin-top: 10px;
+        }
         .header2 {
-          margin: 0 30px;
+          margin: 0 30px 5px 30px;
         }
         .header__over__rate {
           .header__dots {
@@ -865,6 +876,7 @@ main {
             margin-right: 10px;
             p {
               margin-right: 10px;
+              margin-top: 10px;
             }
           }
         }
@@ -893,8 +905,8 @@ main {
         font-weight: normal;
         font-size: 13px;
         font-size: 13px;
+        margin-top: 30px;
         color: white;
-        margin-bottom: 4px;
       }
       .header__parg {
         font-style: normal;

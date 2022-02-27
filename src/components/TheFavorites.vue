@@ -54,6 +54,10 @@ export default {
       return this.addPage <= 10
     },
   },
+  created() {
+    return this.$store.getters.moviesGetter
+  },
+
   methods: {},
 }
 </script>

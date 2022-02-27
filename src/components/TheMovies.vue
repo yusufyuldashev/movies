@@ -18,8 +18,13 @@
         :all2="all2"
       ></router-view>
     </div>
-    <div class="container" v-if="!clicked2 && !isLoading">
-      <h1 class="main__title">Movies</h1>
+    <div class="container" v-if="!isLoading">
+      <h1 class="main__title" v-if="'en' == this.$store.getters.lang">
+        Movies
+      </h1>
+      <h1 class="main__title" v-if="'ru' == this.$store.getters.lang">
+        Фильмы
+      </h1>
       <ul class="movies__genres">
         <li
           class="movie__genre"
@@ -61,8 +66,19 @@
           :class="{ active3: isCompolete }"
           @click="changePage(addPage--)"
           :disabled="isCompolete"
+          v-if="'en' === this.$store.getters.lang"
         >
           Prev
+        </button>
+        <button
+          type="button"
+          class="prev"
+          :class="{ active3: isCompolete }"
+          @click="changePage(addPage--)"
+          :disabled="isCompolete"
+          v-if="'ru' === this.$store.getters.lang"
+        >
+          предыдущий
         </button>
         <div
           class="page__num2"
@@ -81,7 +97,20 @@
         >
           {{ pageNum }}
         </div> -->
-        <button class="next" @click="changePage(addPage++)">Next</button>
+        <button
+          class="next"
+          @click="changePage(addPage++)"
+          v-if="'en' === this.$store.getters.lang"
+        >
+          Next
+        </button>
+        <button
+          class="next"
+          @click="changePage(addPage++)"
+          v-if="'ru' === this.$store.getters.lang"
+        >
+          следующий
+        </button>
       </div>
     </div>
   </section>
@@ -95,84 +124,8 @@ export default {
   data() {
     return {
       datasMovie: [],
-      genres: [
-        {
-          id: 28,
-          name: 'Action',
-        },
-        {
-          id: 12,
-          name: 'Adventure',
-        },
-        {
-          id: 16,
-          name: 'Animation',
-        },
-        {
-          id: 35,
-          name: 'Comedy',
-        },
-        {
-          id: 80,
-          name: 'Crime',
-        },
-        {
-          id: 99,
-          name: 'Documentary',
-        },
-        {
-          id: 18,
-          name: 'Drama',
-        },
-        {
-          id: 10751,
-          name: 'Family',
-        },
-        {
-          id: 14,
-          name: 'Fantasy',
-        },
-        {
-          id: 36,
-          name: 'History',
-        },
-        {
-          id: 27,
-          name: 'Horror',
-        },
-        {
-          id: 10402,
-          name: 'Music',
-        },
-        {
-          id: 9648,
-          name: 'Mystery',
-        },
-        {
-          id: 10749,
-          name: 'Romance',
-        },
-        {
-          id: 878,
-          name: 'Science Fiction',
-        },
-        {
-          id: 10770,
-          name: 'TV Movie',
-        },
-        {
-          id: 53,
-          name: 'Thriller',
-        },
-        {
-          id: 10752,
-          name: 'War',
-        },
-        {
-          id: 37,
-          name: 'Western',
-        },
-      ],
+      genres: [],
+
       selectedGenres: null,
       clicked2: false,
       page: 1,
@@ -184,6 +137,7 @@ export default {
       error: null,
     }
   },
+
   computed: {
     image() {
       return 'https://image.tmdb.org/t/p/w500'
@@ -196,6 +150,7 @@ export default {
   mounted() {
     this.isLoading = true
     this.fetchHomePage5()
+    this.allGenres()
     this.fetchSearched()
     this.isLoading = false
   },
@@ -207,7 +162,7 @@ export default {
 
   methods: {
     handleError() {
-      this.error =null
+      this.error = null
     },
     changePage(pageNumber) {
       this.page = pageNumber
@@ -245,7 +200,27 @@ export default {
     async fetchSearched(datas) {
       this.datasMovie = await datas
     },
+    async allGenres() {
+      try {
+        const api_key = 'api_key=e10a98df5c335fc5102ecda2cf9b7dbf'
+        const base_url = 'https://api.themoviedb.org/3'
+        const api_url =
+          base_url +
+          `/genre/movie/list?&${api_key}&language=${this.$store.getters.lang}`
+        const api = api_url + '&with_genres=' + this.selectedGenres
+        const response = await axios.get(api).then((res) => {
+          // this.genres = res.data.results
+          this.genres = res.data.genres
+          return res.data.genres
+        })
 
+        return response
+      } catch (err) {
+        this.error =
+          err.message ||
+          'failed to authendicate , try  later check  your login data'
+      }
+    },
     async fetchHomePage5() {
       try {
         const api_key = 'api_key=e10a98df5c335fc5102ecda2cf9b7dbf'
@@ -253,7 +228,7 @@ export default {
         const pagination = this.page
         const api_url =
           base_url +
-          `/discover/movie?sort_by=popularity.desc&${api_key}&page=${pagination}`
+          `/discover/movie?sort_by=popularity.desc&${api_key}&page=${pagination}&language=${this.$store.getters.lang}`
         const api = api_url + '&with_genres=' + this.selectedGenres
         const response = await axios
           .get(api, {
@@ -284,7 +259,8 @@ export default {
 <style scoped lang="scss">
 @import '../sass/_colors.scss';
 .highlighted {
-  color: $blue !important;
+  color: $black2 !important;
+  font-weight: bold !important;
 }
 .active3 {
   color: rgb(146, 146, 146) !important;
@@ -296,7 +272,7 @@ export default {
   overflow: hidden;
 }
 .prev {
-  color: black;
+  color: green;
   border: none;
   background: transparent;
   font-size: 16px;
@@ -314,6 +290,7 @@ export default {
   background: transparent;
   margin-left: 10px;
   user-select: none;
+  color: green;
   &:hover {
     color: $blue;
   }
@@ -365,15 +342,17 @@ export default {
   justify-content: center;
   li {
     color: white;
+    font-weight: bold;
     cursor: pointer;
     padding: 10px;
     font-family: 'Roboto';
     font-weight: normal;
-    background: black;
+    background: $blue;
     margin: 5px 5px;
     border-radius: 10px;
     &:hover {
-      color: $blue;
+      color: $black2;
+      font-weight: bold;
     }
   }
 }

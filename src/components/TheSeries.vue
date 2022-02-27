@@ -14,8 +14,13 @@
     <div v-if="clicked2 && !isLoading">
       <router-view :datas="datasMovie" :all2="all2"></router-view>
     </div>
-    <div class="container" v-if="!clicked2 && !isLoading">
-      <h1 class="main__title">TV series</h1>
+    <div class="container" v-if="!isLoading">
+      <h1 class="main__title" v-if="'en' == this.$store.getters.lang">
+        TV series
+      </h1>
+      <h1 class="main__title" v-if="'ru' == this.$store.getters.lang">
+        ТВ сериалы
+      </h1>
 
       <ul class="movies__genres">
         <li
@@ -58,8 +63,19 @@
           :class="{ active3: isCompolete }"
           @click="changePage(addPage--)"
           :disabled="isCompolete"
+          v-if="'en' === this.$store.getters.lang"
         >
           Prev
+        </button>
+        <button
+          type="button"
+          class="prev"
+          :class="{ active3: isCompolete }"
+          @click="changePage(addPage--)"
+          :disabled="isCompolete"
+          v-if="'ru' === this.$store.getters.lang"
+        >
+          предыдущий
         </button>
         <div
           class="page__num2"
@@ -78,7 +94,20 @@
         >
           {{ pageNum }}
         </div> -->
-        <button class="next" @click="changePage(addPage++)">Next</button>
+        <button
+          class="next"
+          @click="changePage(addPage++)"
+          v-if="'en' === this.$store.getters.lang"
+        >
+          Next
+        </button>
+        <button
+          class="next"
+          @click="changePage(addPage++)"
+          v-if="'ru' === this.$store.getters.lang"
+        >
+          следующий
+        </button>
       </div>
     </div>
   </section>
@@ -88,76 +117,11 @@
 import axios from 'axios'
 
 export default {
-  props: ['datas', 'all2', 'saved'],
+  props: ['datas', 'all2', 'saved', 'language'],
   data() {
     return {
       datasMovie: [],
-      genres: [
-        {
-          id: 10759,
-          name: 'Action & Adventure',
-        },
-        {
-          id: 16,
-          name: 'Animation',
-        },
-        {
-          id: 35,
-          name: 'Comedy',
-        },
-        {
-          id: 80,
-          name: 'Crime',
-        },
-        {
-          id: 99,
-          name: 'Documentary',
-        },
-        {
-          id: 18,
-          name: 'Drama',
-        },
-        {
-          id: 10751,
-          name: 'Family',
-        },
-        {
-          id: 10762,
-          name: 'Kids',
-        },
-        {
-          id: 9648,
-          name: 'Mystery',
-        },
-        {
-          id: 10763,
-          name: 'News',
-        },
-        {
-          id: 10764,
-          name: 'Reality',
-        },
-        {
-          id: 10765,
-          name: 'Sci-Fi & Fantasy',
-        },
-        {
-          id: 10766,
-          name: 'Soap',
-        },
-        {
-          id: 10767,
-          name: 'Talk',
-        },
-        {
-          id: 10768,
-          name: 'War & Politics',
-        },
-        {
-          id: 37,
-          name: 'Western',
-        },
-      ],
+      genres: [],
       selectedGenres: null,
       clicked2: false,
       page: 1,
@@ -181,6 +145,7 @@ export default {
   mounted() {
     this.isLoading = true
     this.fetchHomePage5()
+    this.allGenres()
     this.fetchSearched()
     this.isLoading = false
   },
@@ -229,7 +194,27 @@ export default {
     async fetchSearched(datas) {
       this.datasMovie = await datas
     },
+    async allGenres() {
+      try {
+        const api_key = 'api_key=e10a98df5c335fc5102ecda2cf9b7dbf'
+        const base_url = 'https://api.themoviedb.org/3'
+        const api_url =
+          base_url +
+          `/genre/tv/list?&${api_key}&language=${this.$store.getters.lang}`
+        const api = api_url + '&with_genres=' + this.selectedGenres
+        const response = await axios.get(api).then((res) => {
+          // this.genres = res.data.results
+          this.genres = res.data.genres
+          return res.data.genres
+        })
 
+        return response
+      } catch (err) {
+        this.error =
+          err.message ||
+          'failed to authendicate , try  later check  your login data'
+      }
+    },
     async fetchHomePage5() {
       try {
         const api_key = 'api_key=e10a98df5c335fc5102ecda2cf9b7dbf'
@@ -237,7 +222,7 @@ export default {
         const pagination = this.page
         const api_url =
           base_url +
-          `/discover/tv?sort_by=popularity.desc&${api_key}&page=${pagination}`
+          `/discover/tv?sort_by=popularity.desc&${api_key}&page=${pagination}&language=${this.$store.getters.lang}`
         const api = api_url + '&with_genres=' + this.selectedGenres
         const response = await axios
           .get(api, {
@@ -273,7 +258,8 @@ export default {
   }
 }
 .highlighted {
-  color: $blue !important;
+  color: $black2 !important;
+  font-weight: bold !important;
 }
 .active3 {
   color: rgb(146, 146, 146) !important;
@@ -292,6 +278,7 @@ export default {
   margin-right: 10px;
   cursor: pointer;
   user-select: none;
+  color: green;
   &:hover {
     color: $blue;
   }
@@ -303,6 +290,7 @@ export default {
   background: transparent;
   margin-left: 10px;
   user-select: none;
+  color: green;
   &:hover {
     color: $blue;
   }
@@ -358,11 +346,12 @@ export default {
     padding: 10px;
     font-family: 'Roboto';
     font-weight: normal;
-    background: black;
+    background: $blue;
     margin: 5px 5px;
     border-radius: 10px;
     &:hover {
-      color: $blue;
+      color: $black2;
+      font-weight: bold;
     }
   }
 }

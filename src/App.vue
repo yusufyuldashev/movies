@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <the-header></the-header>
+  <div :class="{ black: nightMode, light: !nightMode }">
+    <the-header @theme="allTheme"></the-header>
   </div>
 </template>
 
@@ -9,15 +9,37 @@ import TheHeader from './components/TheHeader.vue'
 export default {
   components: { TheHeader },
   data() {
-    return {}
+    return {
+      nightMode: false,
+    }
   },
+  watch: {
+    nightMode() {
+      localStorage.setItem('nightMode', JSON.stringify(this.nightMode))
+    },
+  },
+
   created() {
+    this.nightMode = JSON.parse(localStorage.getItem('nightMode'))
+
     this.$store.dispatch('tryLogin')
+    return this.$store.getters.moviesGetter2
+  },
+  methods: {
+    allTheme(value) {
+      this.nightMode = value
+    },
   },
 }
 </script>
 
 <style scoped>
+.light {
+  background: #20202b;
+}
+.black {
+  background: black;
+}
 div {
   background-color: #20202b;
 }

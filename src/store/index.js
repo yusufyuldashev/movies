@@ -13,10 +13,14 @@ const store = createStore({
             userId: null,
             token: null,
             tokenExpiration: null,
+            languages:''
             
         }
     },
     mutations: {
+        setLang(state,payload) {
+            state.languages =payload 
+        },
          setUser(state, payload) {
         state.token = payload.token
             state.userId = payload.userId
@@ -24,10 +28,12 @@ const store = createStore({
         state.tokenExpiration = payload.tokenExpiration
     },
         moviesMutation(state, payload) {
-                state.movies.push(payload);
-                
-        
+            state.movies.push(payload);
+            
+           window.localStorage.setItem("users", JSON.stringify(state.movies));
+               
         },
+       
         discaverMutation(state, payload) {
             state.discover =payload
         },
@@ -47,11 +53,17 @@ const store = createStore({
     },
 
     getters: {
+        lang(state) {
+            return state.languages
+        },
         name(state) {
             return state.userId
         },
         moviesGetter(state) {
          return [...new Map(state.movies.map((item) => [item["id"], item])).values()]
+        },
+         moviesGetter2(state) {
+         return state.movies
         },
         discoverGetters(state) {
             return state.discover
@@ -77,6 +89,14 @@ const store = createStore({
        
     },
     actions: {
+        tryLanguage(context,payload) {
+            context.commit('setLang',payload)
+        },
+        tryMovies(context) {
+            const user = JSON.parse(localStorage.getItem('user'))
+                context.commit('moviesMutation',user)
+        },
+        
         tryLogin(context) {
             const token  = localStorage.getItem('token') 
             const userId = localStorage.getItem('userId') 
@@ -155,7 +175,7 @@ const store = createStore({
                 const base_url = 'https://api.themoviedb.org/3'
                 const api_url =
                 base_url +
-                    `/discover/movie?with_genres=878&with_cast=500&sort_by=vote_average.desc&${api_key}`
+                    `/discover/movie?with_genres=878&with_cast=500&sort_by=vote_average.desc&${api_key}&language=${this.getters.lang}`
                 const response = await fetch(api_url)
                 const responseData = await response.json()
                 if (!response.ok) {
@@ -171,7 +191,7 @@ const store = createStore({
                 const base_url = 'https://api.themoviedb.org/3'
                 const api_url =
                 base_url +
-                    `/discover/movie?certification_country=US&certification.lte=G&sort_by=popularity.desc&${api_key}`
+                    `/discover/movie?certification_country=US&certification.lte=G&sort_by=popularity.desc&${api_key}&language=${this.getters.lang}`
                 const response = await fetch(api_url)
                 const responseData = await response.json()
                 if (!response.ok) {
@@ -187,7 +207,7 @@ const store = createStore({
                 const base_url = 'https://api.themoviedb.org/3'
                 const api_url =
                 base_url +
-                    `/discover/movie?with_genres=35&with_cast=23659&sort_by=revenue.desc&${api_key}`
+                    `/discover/movie?with_genres=35&with_cast=23659&sort_by=revenue.desc&${api_key}&language=${this.getters.lang}`
                 const response = await fetch(api_url)
                 const responseData = await response.json()
                 if (!response.ok) {
@@ -201,7 +221,7 @@ const store = createStore({
 
                 const api_key = 'api_key=e10a98df5c335fc5102ecda2cf9b7dbf'
                 const base_url = 'https://api.themoviedb.org/3'
-                const api_url =   base_url +`/discover/movie?sort_by=popularity.desc&${api_key}`
+                const api_url =   base_url +`/discover/movie?sort_by=popularity.desc&${api_key}&language=${this.getters.lang}`
                 const response = await fetch(api_url)
                 const responseData = await response.json()
                 if (!response.ok) {
@@ -216,8 +236,6 @@ const store = createStore({
                 context.commit('removeMutation',payload)
         },
         storeMovies(context, payload) {
-           
-                
             context.commit('moviesMutation', payload)
         }
       

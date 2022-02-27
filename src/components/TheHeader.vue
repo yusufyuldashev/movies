@@ -1,21 +1,40 @@
 <template>
-  <div class="wrapper__container">
+  <div class="wrapper__container" :class="{ black: nightMode }">
     <aside>
-      <the-aside></the-aside>
+      <the-aside @theme="changeTheme"></the-aside>
     </aside>
 
     <div class="line" :class="{ active: all }">
       <img class="line__img" src="../assets/Line1.png" alt="line" />
     </div>
     <nav>
+      <div v-if="isLoggedIn">
+        <select class="languages" v-model="languages" @click="lan">
+          <option value="en">En</option>
+          <option value="ru">Ru</option>
+        </select>
+        <button @click="MovieLanguages" class="langMovies" v-if="lang">
+          Save
+        </button>
+      </div>
       <div
         class="container fixing__part"
         :class="{ 'scrolled-nav': scrolledNav }"
       >
         <div class="wrapper__brands" v-if="isLoggedIn">
-          <router-link to="/movies">movies &nbsp;</router-link>
+          <router-link to="/movies" v-if="'en' === this.$store.getters.lang">
+            movies &nbsp;
+          </router-link>
+          <router-link to="/movies" v-if="'ru' === this.$store.getters.lang">
+            фильмы &nbsp;
+          </router-link>
           <span>|</span>
-          <router-link to="/series">TV series</router-link>
+          <router-link to="/series" v-if="'en' === this.$store.getters.lang">
+            TV series
+          </router-link>
+          <router-link to="/series" v-if="'ru' === this.$store.getters.lang">
+            ТВ сериалы
+          </router-link>
         </div>
         <div class="wrapper__brands" v-if="!isLoggedIn">
           <router-link to="/login">movies &nbsp;</router-link>
@@ -55,12 +74,14 @@
               <img class="icon" src="../assets/bell-plus.png" alt="mail" />
             </button>
           </div>
+
           <button type="button" class="man__button" @click="auth">
             <img src="../assets/man.png" alt="man" class="img__man" />
           </button>
         </div>
         <transition name="nav__transition">
           <ul v-show="login" class="nav__toggle">
+            <button class="nav__cancel" type="button" @click="auth">X</button>
             <li class="nav__getter">
               It is your User Id:{{ this.$store.getters.name }}
             </li>
@@ -110,9 +131,19 @@ export default {
       scrollPosition: null,
       scrolledNav: null,
       login: false,
+      languages: 'en',
+      lang: false,
+      nightMode: false,
     }
   },
-
+  watch: {
+    nightMode() {
+      localStorage.setItem('nightMode', JSON.stringify(this.nightMode))
+    },
+  },
+  created() {
+    this.nightMode = JSON.parse(localStorage.getItem('nightMode'))
+  },
   computed: {
     isLoggedIn() {
       return this.$store.getters.isAuthendicated
@@ -125,12 +156,29 @@ export default {
 
   mounted() {
     window.addEventListener('scroll', this.updateScroll)
+    if (localStorage.languages) {
+      this.languages = localStorage.languages
+    }
+    this.$store.dispatch('tryLanguage', this.languages)
   },
+
   methods: {
+    changeTheme(value) {
+      this.nightMode = value
+      this.$emit('theme', this.nightMode)
+    },
+    lan() {
+      this.lang = true
+    },
     logOut() {
       if (this.$store.dispatch('logout')) {
         this.$router.replace('/login')
       }
+    },
+    MovieLanguages() {
+      localStorage.languages = this.languages
+      this.lang = false
+      this.$router.go()
     },
 
     updateScroll() {
@@ -155,7 +203,8 @@ export default {
       const base_url = 'https://api.themoviedb.org/3'
       // const movies = this.movies
       const api_url =
-        base_url + `/search/movie?api_key=${api_key}&query=${value}`
+        base_url +
+        `/search/movie?api_key=${api_key}&query=${value}&language=${this.languages}`
       const response = await axios
         .get(api_url)
         .then((res) => {
@@ -174,6 +223,49 @@ export default {
 
 <style scoped lang="scss">
 @import '../sass/_colors.scss';
+.black {
+  background: black;
+}
+.langMovies {
+  border: none;
+  position: absolute;
+  right: 80px;
+  top: 10px;
+  color: white;
+
+  background: red;
+  padding: 3px 5px 3px 5px;
+  border-radius: 20px;
+}
+.languages {
+  background: transparent;
+  margin-right: 10px;
+  margin-top: 20px;
+  margin-left: 0;
+  position: absolute;
+  right: 15px;
+
+  top: 0;
+  color: white;
+  outline: none;
+  option {
+    background: black;
+  }
+}
+.nav__cancel {
+  position: absolute;
+  background: #2496ff;
+  border: none;
+  color: white;
+  padding: 15px;
+  font-size: 20px;
+  right: 0;
+  top: 0;
+  border-bottom-left-radius: 20px;
+  &:hover {
+    background-color: black;
+  }
+}
 .nav__getter {
   text-align: center;
   width: 105px !important;
@@ -274,6 +366,7 @@ nav .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background: transparent;
   .wrapper__brands {
     display: flex;
     align-items: center;
@@ -342,14 +435,19 @@ nav .container {
     align-items: center;
     .wrapper__icon__center {
       margin: 0 25px;
+      background: transparent;
     }
     button {
       border: none;
       background-color: $black;
       cursor: pointer;
     }
+    .icon__button {
+      background: transparent;
+    }
     .man__button {
       margin-top: 20px;
+      background: transparent;
     }
     .wrapper__icon {
       p {
