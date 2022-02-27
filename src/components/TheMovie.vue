@@ -705,6 +705,28 @@ export default {
     justify-content: space-between !important;
     flex-wrap: wrap !important;
   }
+  .container1 {
+    display: flex !important;
+    flex-direction: column !important;
+    .left__data {
+      width: 100% !important;
+    }
+    .right__data {
+      width: 100% !important;
+    }
+  }
+  .wrapper__data {
+    height: 95vh !important;
+    overflow: hidden;
+    .big__wrapper {
+      background-image: linear-gradient(
+        to right,
+        rgba(7.06%, 5.49%, 5.1%, 1) 150px,
+        rgba(7.06%, 5.49%, 6.1%, 0.3) 100%
+      );
+      height: 95vh !important;
+    }
+  }
   .big__wrapper {
     display: flex !important;
     align-content: center !important;
