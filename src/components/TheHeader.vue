@@ -361,6 +361,7 @@ aside {
   left: 0;
   bottom: 0;
   height: 100%;
+  z-index: 999;
   padding-left: 30px;
 }
 nav {
