@@ -98,4 +98,9 @@ dialog {
   margin: 0;
   overflow: hidden;
 }
+@media only screen and (max-width: 892px) {
+  dialog {
+    left: 11% !important;
+  }
+}
 </style>

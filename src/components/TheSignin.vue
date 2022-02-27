@@ -1,6 +1,6 @@
 <template>
   <div class="container1">
-    <section class="vh-100">
+    <section class="vh-150">
       <div class="container py-5 h-100">
         <div class="row d-flex align-items-center justify-content-center h-100">
           <div class="col-md-8 col-lg-7 col-xl-6">
@@ -191,6 +191,7 @@ export default {
 
 .container1 {
   width: 1050px;
+  height: 100vh !important;
   margin: 0 auto;
 }
 .divider:after,
