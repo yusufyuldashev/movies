@@ -707,33 +707,13 @@ export default {
   }
   .container1 {
     display: flex !important;
-    flex-direction: column !important;
-    .left__data {
-      width: 100% !important;
-    }
-    .right__data {
-      margin-top: 20px;
-      width: 100% !important;
-    }
+    align-items: center !important;
   }
   .wrapper__data {
-    height: 100vh !important;
-    overflow: hidden;
-    .container1 {
-      justify-content: flex-start;
-    }
+    height: 55vh !important;
     .big__wrapper {
-      background-image: linear-gradient(
-        to right,
-        rgba(7.06%, 5.49%, 5.1%, 1) 150px,
-        rgba(7.06%, 5.49%, 6.1%, 0.3) 100%
-      );
-      height: 100vh !important;
+      height: 55vh !important;
     }
-  }
-  .big__wrapper {
-    display: flex !important;
-    align-content: center !important;
   }
 }
 </style>
