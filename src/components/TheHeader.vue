@@ -231,6 +231,7 @@ export default {
 
 <style scoped lang="scss">
 @import '../sass/_colors.scss';
+
 .secondaside {
   margin-left: 20px;
 }
@@ -526,12 +527,16 @@ img {
   }
 }
 @media only screen and (max-width: 892px) {
+  .fixing__part {
+    display: flex !important;
+    flex-direction: column !important;
+  }
   .nav {
     width: 90% !important;
   }
-  .wrapper__brands {
-    display: none !important;
-  }
+  // .wrapper__brands {
+  //   // display: none !important;
+  // }
   .wrapper__form {
     width: 90% !important;
     .wrapper__center {

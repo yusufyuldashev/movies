@@ -14,7 +14,7 @@
     <div v-if="clicked2 && !isLoading">
       <router-view :datas="datasMovie" :all2="all2"></router-view>
     </div>
-    <div class="container" v-if="!isLoading">
+    <div class="container1" v-if="!isLoading">
       <h1 class="main__title" v-if="'en' == this.$store.getters.lang">
         TV series
       </h1>
@@ -134,6 +134,9 @@ export default {
     }
   },
   computed: {
+    isLoggedIn() {
+      return this.$store.getters.isAuthendicated
+    },
     image() {
       return 'https://image.tmdb.org/t/p/w500'
     },
@@ -252,6 +255,38 @@ export default {
 
 <style scoped lang="scss">
 @import '../sass/_colors.scss';
+.wrapper__brands {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  font-family: 'Roboto';
+  visibility: hidden;
+  a {
+    color: $grey;
+    position: relative;
+    text-decoration: none;
+    &:hover,
+    &.active2 {
+      color: $blue;
+      &::after {
+        position: absolute;
+        content: '';
+        width: 35px;
+        height: 4px;
+        border-radius: 20px;
+        background: $blue;
+        top: 23px;
+        right: 19px;
+      }
+    }
+  }
+
+  span {
+    color: $grey;
+    font-size: 24px;
+    margin: 0 13px;
+  }
+}
 .spinner__center {
   h3 {
     color: red !important;
@@ -361,9 +396,10 @@ export default {
 .vote2 {
   background: green !important;
 }
-.container {
+.container1 {
   width: 1050px;
   margin: 0 auto;
+
   .main__title {
     color: white;
     font-weight: normal;
@@ -435,5 +471,31 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+@media only screen and (max-width: 1150px) {
+  .container1 {
+    width: 100% !important;
+  }
+  .main__item {
+    width: 25% !important;
+  }
+}
+@media only screen and (max-width: 992px) {
+  .main__item {
+    width: 33% !important;
+  }
+  .wrapper__rate {
+    right: 0 !important;
+  }
+}
+@media only screen and (max-width: 892px) {
+  .wrapper__brands {
+    visibility: visible !important;
+  }
+}
+@media only screen and (max-width: 550px) {
+  .main__item {
+    width: 50% !important;
+  }
 }
 </style>

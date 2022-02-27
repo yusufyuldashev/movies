@@ -139,6 +139,9 @@ export default {
   },
 
   computed: {
+    isLoggedIn() {
+      return this.$store.getters.isAuthendicated
+    },
     image() {
       return 'https://image.tmdb.org/t/p/w500'
     },
@@ -258,6 +261,38 @@ export default {
 
 <style scoped lang="scss">
 @import '../sass/_colors.scss';
+.wrapper__brands {
+  visibility: hidden;
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  font-family: 'Roboto';
+  a {
+    color: $grey;
+    position: relative;
+    text-decoration: none;
+    &:hover,
+    &.active2 {
+      color: $blue;
+      &::after {
+        position: absolute;
+        content: '';
+        width: 35px;
+        height: 4px;
+        border-radius: 20px;
+        background: $blue;
+        top: 23px;
+        right: 19px;
+      }
+    }
+  }
+
+  span {
+    color: $grey;
+    font-size: 24px;
+    margin: 0 13px;
+  }
+}
 .highlighted {
   color: $black2 !important;
   font-weight: bold !important;
@@ -453,6 +488,11 @@ export default {
   }
   .wrapper__rate {
     right: 0 !important;
+  }
+}
+@media only screen and (max-width: 892px) {
+  .wrapper__brands {
+    visibility: visible !important;
   }
 }
 @media only screen and (max-width: 550px) {
