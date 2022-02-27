@@ -260,7 +260,6 @@ export default {
 .container1 {
   width: 1050px;
   margin: 0 auto;
-  border: 1px solid red;
 }
 .gradient-custom-3 {
   /* fallback for old browsers */
