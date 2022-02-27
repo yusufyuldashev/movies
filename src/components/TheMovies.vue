@@ -18,7 +18,7 @@
         :all2="all2"
       ></router-view>
     </div>
-    <div class="container" v-if="!isLoading">
+    <div class="container1" v-if="!isLoading">
       <h1 class="main__title" v-if="'en' == this.$store.getters.lang">
         Movies
       </h1>
@@ -362,8 +362,9 @@ export default {
 .vote2 {
   background: green !important;
 }
-.container {
+.container1 {
   width: 1050px;
+  border: 1px solid red;
 
   margin: 0 auto;
   .main__title {
@@ -437,5 +438,27 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+@media only screen and (max-width: 1150px) {
+  .container1 {
+    width: 90% !important;
+  }
+  .main__item {
+    width: 25% !important;
+  }
+}
+@media only screen and (max-width: 992px) {
+  .main__item {
+    width: 33% !important;
+  }
+  .wrapper__rate {
+    right: 0 !important;
+  }
+}
+@media only screen and (max-width: 550px) {
+  .main__item {
+    width: 50% !important;
+  }
 }
 </style>

@@ -18,7 +18,7 @@
         </button>
       </div>
       <div
-        class="container fixing__part"
+        class="container1 fixing__part"
         :class="{ 'scrolled-nav': scrolledNav }"
       >
         <div class="wrapper__brands" v-if="isLoggedIn">
@@ -336,7 +336,7 @@ export default {
   border-radius: 10px;
 }
 .line {
-  height: 220vh;
+  height: 0;
   margin-left: 130px;
   .line__img {
     height: 100%;
@@ -362,7 +362,7 @@ nav {
   width: 90%;
   padding-top: 30px;
 }
-nav .container {
+nav .container1 {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -480,9 +480,47 @@ img {
   justify-content: space-between;
   align-items: flex-start;
 }
-.container {
+.container1 {
   width: 1050px;
   margin: 0 auto;
-  //   border: 1px solid red;
+  border: 1px solid red;
+}
+@media only screen and (max-width: 1150px) {
+  .container1 {
+    width: 90%;
+  }
+  .wrapper__icon {
+    display: none;
+  }
+  .languages {
+    top: -20px !important;
+    right: -10px;
+  }
+  .man__button {
+    margin-bottom: 15px;
+  }
+  .bottom__arrow {
+    right: 10px;
+  }
+}
+@media only screen and (max-width: 892px) {
+  .wrapper__brands {
+    display: none !important;
+  }
+  .wrapper__form {
+    width: 90% !important;
+    .wrapper__center {
+      margin-left: 0 !important;
+    }
+  }
+  aside {
+    display: none;
+  }
+  nav {
+    width: 100% !important;
+  }
+  .line {
+    display: none;
+  }
 }
 </style>
