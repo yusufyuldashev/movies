@@ -82,7 +82,11 @@
         <transition name="nav__transition">
           <ul v-show="login" class="nav__toggle">
             <button class="nav__cancel" type="button" @click="auth">X</button>
-            <the-aside @theme="changeTheme" v-if="checkSreen < 892"></the-aside>
+            <the-aside
+              @theme="changeTheme"
+              v-if="checkSreen < 892"
+              class="secondaside"
+            ></the-aside>
             <div>
               <li class="nav__getter" v-if="checkSreen > 893">
                 It is your User Id:{{ this.$store.getters.name }}
@@ -227,6 +231,9 @@ export default {
 
 <style scoped lang="scss">
 @import '../sass/_colors.scss';
+.secondaside {
+  margin-left: 20px;
+}
 .black {
   background: black;
 }
