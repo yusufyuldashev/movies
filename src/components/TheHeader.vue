@@ -483,11 +483,10 @@ img {
 .container1 {
   width: 1050px;
   margin: 0 auto;
-  border: 1px solid red;
 }
 @media only screen and (max-width: 1150px) {
   .container1 {
-    width: 90%;
+    width: 100%;
   }
   .wrapper__icon {
     display: none;

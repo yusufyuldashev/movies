@@ -364,7 +364,6 @@ export default {
 }
 .container1 {
   width: 1050px;
-  border: 1px solid red;
 
   margin: 0 auto;
   .main__title {
@@ -442,7 +441,7 @@ export default {
 
 @media only screen and (max-width: 1150px) {
   .container1 {
-    width: 90% !important;
+    width: 100% !important;
   }
   .main__item {
     width: 25% !important;
