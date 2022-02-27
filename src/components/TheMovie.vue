@@ -705,5 +705,9 @@ export default {
     justify-content: space-between !important;
     flex-wrap: wrap !important;
   }
+  .big__wrapper {
+    display: flex !important;
+    align-content: center !important;
+  }
 }
 </style>
