@@ -485,6 +485,10 @@ img {
   margin: 0 auto;
 }
 @media only screen and (max-width: 1150px) {
+  .langMovies {
+    right: 50px !important  ;
+    top: 0 !important;
+  }
   .container1 {
     width: 100%;
   }
