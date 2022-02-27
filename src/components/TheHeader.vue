@@ -82,19 +82,22 @@
         <transition name="nav__transition">
           <ul v-show="login" class="nav__toggle">
             <button class="nav__cancel" type="button" @click="auth">X</button>
-            <li class="nav__getter">
-              It is your User Id:{{ this.$store.getters.name }}
-            </li>
-            <li class="nav__item" v-if="!isLoggedIn">
-              <router-link to="/signup">Sign Up</router-link>
-            </li>
+            <the-aside @theme="changeTheme" v-if="checkSreen < 892"></the-aside>
+            <div>
+              <li class="nav__getter" v-if="checkSreen > 893">
+                It is your User Id:{{ this.$store.getters.name }}
+              </li>
+              <li class="nav__item" v-if="!isLoggedIn">
+                <router-link to="/signup">Sign Up</router-link>
+              </li>
 
-            <li class="nav__item" v-if="!isLoggedIn">
-              <router-link to="/login">Sign In</router-link>
-            </li>
-            <li class="nav__item" v-if="isLoggedIn" @click="logOut">
-              <router-link to="/logout">Log Out</router-link>
-            </li>
+              <li class="nav__item" v-if="!isLoggedIn">
+                <router-link to="/login">Sign In</router-link>
+              </li>
+              <li class="nav__item" v-if="isLoggedIn" @click="logOut">
+                <router-link to="/logout">Log Out</router-link>
+              </li>
+            </div>
           </ul>
         </transition>
       </div>
@@ -134,6 +137,7 @@ export default {
       languages: 'en',
       lang: false,
       nightMode: false,
+      checkSreen: window.innerWidth,
     }
   },
   watch: {
@@ -281,7 +285,8 @@ export default {
   justify-content: center;
   width: 158px;
   height: 100%;
-  background-color: grey;
+  z-index: 999;
+  background-color: $black;
   top: 0;
   left: 0;
   li {
