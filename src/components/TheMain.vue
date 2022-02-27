@@ -15,7 +15,7 @@
       <router-view :datas="datas" :click="clicked2" :all2="all2"></router-view>
     </div>
 
-    <div class="container" v-if="!isLoading">
+    <div class="container1" v-if="!isLoading">
       <header>
         <ul
           class="main__list"
@@ -824,7 +824,7 @@ main {
   font-family: 'Roboto';
   font-weight: normal;
 }
-.container {
+.container1 {
   width: 1050px;
   margin: 0 auto;
 }
@@ -993,5 +993,60 @@ header > h3 {
   font-size: 24px;
   color: white;
   font-weight: normal;
+}
+@media only screen and (max-width: 1150px) {
+  .container1 {
+    width: 95% !important;
+  }
+  .header__over {
+    top: 0 !important;
+  }
+  .main__item {
+    width: 25% !important;
+  }
+}
+@media only screen and (max-width: 692px) {
+  .main__item {
+    width: 35% !important;
+  }
+}
+@media only screen and (max-width: 592px) {
+  .main__item {
+    width: 50% !important;
+  }
+  .main__title {
+    display: flex !important;
+    margin-left: 0 !important;
+    justify-content: center !important;
+  }
+  .main__text {
+    display: flex !important;
+    margin: 0 auto !important;
+    justify-content: center !important;
+  }
+  .page__num {
+    padding: 3px;
+  }
+}
+@media only screen and (max-width: 492px) {
+  .header__wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100% !important;
+    .header__data {
+      width: 97% !important;
+      margin-left: 15px;
+    }
+  }
+  .header__carousel {
+    width: 90% !important;
+    margin: 20px 0;
+  }
+  .main__item {
+    width: 90% !important;
+  }
+  .page__num {
+    margin: 0 1px;
+  }
 }
 </style>

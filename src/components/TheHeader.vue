@@ -517,9 +517,18 @@ img {
   }
   .bottom__arrow {
     right: 10px;
+    z-index: 222;
+  }
+}
+@media only screen and (max-width: 1100px) {
+  nav {
+    width: 87% !important;
   }
 }
 @media only screen and (max-width: 892px) {
+  .nav {
+    width: 90% !important;
+  }
   .wrapper__brands {
     display: none !important;
   }
