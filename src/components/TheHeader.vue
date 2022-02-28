@@ -349,7 +349,7 @@ export default {
   border-radius: 10px;
 }
 .line {
-  height: 0;
+  height: 2200px;
   margin-left: 130px;
   .line__img {
     height: 100%;

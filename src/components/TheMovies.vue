@@ -25,7 +25,7 @@
       <h1 class="main__title" v-if="'ru' == this.$store.getters.lang">
         Фильмы
       </h1>
-      <ul class="movies__genres">
+      <ul class="movies__genres" v-if="checkSreen > 693">
         <li
           class="movie__genre"
           v-for="genre in genres"
@@ -35,6 +35,35 @@
         >
           {{ genre.name }}
         </li>
+      </ul>
+      <ul
+        class="movies__genres"
+        v-if="checkSreen < 692"
+        @mouseover="intervalStop"
+        @mouseleave="intervalStart"
+      >
+        <Flicking
+          ref="flicking"
+          class="carousel"
+          :options="{
+            align: 'prev',
+            circular: true,
+            duration: 200,
+            easing: function (x) {
+              return x
+            },
+          }"
+        >
+          <li
+            class="movie__genre"
+            v-for="genre in genres"
+            :key="genre.id"
+            :class="{ highlighted: genrex == genre.id }"
+            @click="genreClick(genre.id)"
+          >
+            {{ genre.name }}
+          </li>
+        </Flicking>
       </ul>
       <ul class="main__list">
         <li
@@ -118,9 +147,13 @@
 
 <script>
 import axios from 'axios'
+import Flicking from '@egjs/vue3-flicking'
 
 export default {
   props: ['datas', 'all2', 'saved'],
+  components: {
+    Flicking,
+  },
   data() {
     return {
       datasMovie: [],
@@ -135,6 +168,7 @@ export default {
       genrex: null,
       isLoading: false,
       error: null,
+      checkSreen: window.innerWidth,
     }
   },
 
@@ -155,6 +189,7 @@ export default {
     this.fetchHomePage5()
     this.allGenres()
     this.fetchSearched()
+    this.intervalStart()
     this.isLoading = false
   },
   watch: {
@@ -164,6 +199,14 @@ export default {
   },
 
   methods: {
+    intervalStart() {
+      this.intreval = setInterval(() => {
+        this.$refs.flicking.next().catch(() => void 0)
+      }, 3000)
+    },
+    intervalStop() {
+      clearInterval(this.intreval)
+    },
     handleError() {
       this.error = null
     },
@@ -261,6 +304,9 @@ export default {
 
 <style scoped lang="scss">
 @import '../sass/_colors.scss';
+@import url('../../node_modules/@egjs/vue-flicking/dist/flicking.css');
+// Or, if you have to support IE9
+@import url('../../node_modules/@egjs/vue-flicking/dist/flicking-inline.css');
 .wrapper__brands {
   visibility: hidden;
   display: flex;
