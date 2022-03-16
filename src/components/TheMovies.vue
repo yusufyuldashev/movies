@@ -25,7 +25,7 @@
       <h1 class="main__title" v-if="'ru' == this.$store.getters.lang">
         Фильмы
       </h1>
-      <ul class="movies__genres" v-if="checkSreen > 693">
+      <ul class="movies__genres" v-if="checkSreen > 692">
         <li
           class="movie__genre"
           v-for="genre in genres"

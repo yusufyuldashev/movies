@@ -376,6 +376,7 @@ nav {
   width: 90%;
   padding-top: 30px;
 }
+
 nav .container1 {
   display: flex;
   align-items: center;
@@ -491,6 +492,7 @@ img {
   width: 96%;
   display: flex;
   margin: 0 auto;
+
   justify-content: space-between;
   align-items: flex-start;
 }
