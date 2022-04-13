@@ -190,7 +190,7 @@ export default {
 }
 
 .container1 {
-  width: 1050px;
+  width: 100%;
   height: 100vh !important;
   margin: 0 auto;
 }

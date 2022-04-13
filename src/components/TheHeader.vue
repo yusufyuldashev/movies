@@ -65,13 +65,20 @@
           <div class="wrapper__icon">
             <p class="wrapper__dots">...</p>
             <button type="button" class="icon__button">
-              <img class="icon" src="../assets/mail.png" alt="mail" />
+              <img class="icon" src="../assets/comments.png" alt="mail" />
             </button>
           </div>
           <div class="wrapper__icon wrapper__icon__center">
             <p class="wrapper__dots">...</p>
             <button type="button" class="icon__button">
-              <img class="icon" src="../assets/bell-plus.png" alt="mail" />
+              <router-link to="/weather">
+                <img
+                  style="color: red;"
+                  src="../assets/rainy-day.png"
+                  class="icon"
+                  alt="mail"
+                />
+              </router-link>
             </button>
           </div>
 
@@ -364,7 +371,6 @@ export default {
 aside {
   width: 11.7%;
   top: 0;
-  border-right: 1px solid $blue;
   position: fixed;
   left: 0;
   bottom: 0;

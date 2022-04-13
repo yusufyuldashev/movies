@@ -254,11 +254,9 @@ export default {
 .form-check-label {
   color: white;
 }
-.signup {
-  margin-top: 40px;
-}
+
 .container1 {
-  width: 1050px;
+  width: 100%;
   margin: 0 auto;
 }
 .gradient-custom-3 {
