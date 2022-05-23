@@ -11,7 +11,7 @@ const store = createStore({
       userId: null,
       token: null,
       tokenExpiration: null,
-      languages: '',
+      languages: 'en',
     }
   },
   mutations: {
@@ -86,8 +86,11 @@ const store = createStore({
     },
   },
   actions: {
-    tryLanguage(context, payload) {
-      context.commit('setLang', payload)
+    tryLanguage(context) {
+      const langMovies = localStorage.getItem('languages')
+      if (langMovies) {
+        context.commit('setLang', langMovies)
+      }
     },
     tryMovies(context) {
       const user = JSON.parse(localStorage.getItem('user'))

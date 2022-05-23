@@ -22,6 +22,7 @@ export default {
     this.nightMode = JSON.parse(localStorage.getItem('nightMode'))
 
     this.$store.dispatch('tryLogin')
+    this.$store.dispatch('tryLanguage')
     return this.$store.getters.moviesGetter2
   },
   methods: {
